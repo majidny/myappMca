@@ -176,3 +176,10 @@ class facultyattedence(models.Model):
     class Meta:
         db_table = 'facultyattedence'
 
+
+
+
+class abcd(models.Model):
+    a=models.CharField(max_length=150)
+
+
