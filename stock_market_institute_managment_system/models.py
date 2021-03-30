@@ -180,6 +180,6 @@ class facultyattedence(models.Model):
 
 
 class abcd(models.Model):
-    a=models.CharField(max_length=150)
+    aaaa=models.CharField(max_length=150)
 
 
