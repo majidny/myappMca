@@ -183,3 +183,5 @@ class abcd(models.Model):
     aaaa=models.CharField(max_length=150)
 
 
+class abcde(models.Model):
+    aaaa=models.CharField(max_length=150)
