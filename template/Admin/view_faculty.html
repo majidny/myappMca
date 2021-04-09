@@ -1,0 +1,44 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="">
+  <table class="table table-bordered" >
+    <tr>
+      <td>Search Faculty </td>
+      <td>
+        <input type="text" name="textfield" class="form-control" />
+      </td>
+      <td>
+        <input type="submit" name="Submit" value="Search"  class="btn btn-success" />
+      </td>
+    </tr>
+  </table>
+  <table class="table table-bordered">
+    <tr>
+      <td>Sl.No</td>
+      <td>Name</td>
+      <td>Email</td>
+      <td>Phone</td>
+      <td>Image</td>
+      <td>Address</td>
+      <td>Batch</td>
+      <td>&nbsp;</td>
+    </tr>
+       {% for i in c %}
+    <tr>
+      <td>&nbsp;{{ forloop.counter }}</td>
+      <td>&nbsp;{{ i.facultyname }} </td>
+      <td>&nbsp;{{ i.email }}</td>
+      <td>{{ i.phone_no }}&nbsp;</td>
+      <td><img src="{{ i.image }}" height="60px" width="60"></td>
+      <td>&nbsp;{{ i.house_name}}<br>{{ i.place }}<br>{{ i.post }}<br>{{ i.pin }}</td>
+      <td>{{ i.BATCH.batch_name }}&nbsp;</td>
+      <td><p><a href="/stock/admin_view_faculty_edit/{{ i.id }}">Edit</a></p>
+      <p><a href="/stock/admin_view_faculty_del/{{ i.id }}">Delete</a></p>
+      <p><a href="#">Salary</a></p></td>
+
+
+        {% endfor %}
+    </tr>
+  </table>
+</form>
+{% endblock %}
