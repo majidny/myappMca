@@ -1,0 +1,96 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<h1 align="center">ADD STUDENTS </h1>
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+{% csrf_token %}
+  <table class="table table-bordered"  align="center">
+    <tr>
+      <td>Name</td>
+      <td>
+        <input type="text" name="textfield" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Gender</td>
+      <td>
+        <input name="radiobutton" type="radio" value="male" />
+      Male
+      <input name="radiobutton" type="radio" value="female" />
+      Female</td>
+    </tr>
+    <tr>
+      <td>DOB</td>
+      <td>
+        <input type="date" name="textfield2" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Image</td>
+      <td>
+        <input type="file" name="file" class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <input type="text" name="textfield3" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Phon</td>
+      <td>
+        <input type="text" name="textfield4" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>House Name </td>
+      <td>
+        <input type="text" name="textfield5" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Place</td>
+      <td>
+        <input type="text" name="textfield6"  class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Post</td>
+      <td>
+        <input type="text" name="textfield7" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Pin</td>
+      <td>
+        <input type="text" name="textfield8" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Course</td>
+      <td>
+        <select name="select" class="form-control">{% for i in course %}
+            <option value="{{ i.pk }}">{{ i.course_name }}</option>
+            {% endfor %}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td> Batch </td>
+      <td>
+        <select name="select2" class="form-control">{% for i in batch %}
+            <option value="{{ i.pk }}">{{ i.batch_name }}</option>
+            {% endfor %}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center" >
+       
+          <input type="submit" name="Submit" value="ADD" class="btn btn-success"  />
+        
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
