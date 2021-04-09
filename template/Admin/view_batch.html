@@ -1,0 +1,42 @@
+{% extends "admin_index.html" %}
+{% block body  %}
+<h1 align="center">VIEW BATCH </h1>
+<form id="form1" name="form1" method="post" action="/stock/admin_view_batch_search/">
+
+  <table width="200" border="1" align="center" class="table table-bordered">
+    <tr>
+      <td>Batch search </td>
+      <td>
+        <input type="text" name="textfield" class="form-control" values="{{ bb }}"/>
+      </td>
+      <td>
+        <input type="submit" name="Submit" value="Search" class="btn btn-success" />
+      </td>
+    </tr>
+  </table>
+  <table width="200" border="1" align="center" class="table table-bordered">
+    <tr>
+      <td>Sl.no</td>
+      <td>Batch Name </td>
+      <td>Batch Year </td>
+      <td> Batch Month </td>
+      <td>Course</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+      {% for i in c %}
+    <tr>
+      <td>{{ forloop.counter }}&nbsp;</td>
+      <td>{{ i.batch_name }}&nbsp;</td>
+      <td>{{ i.batch_year }}&nbsp;</td>
+      <td>{{ i.batch_month }}&nbsp;</td>
+      <td>{{ i.COURSE.course_name }}&nbsp;</td>
+      <td><a href="/stock/admin_view_batch_edit/{{ i.id }}/{{ i.batch_name }}">Edit</a></td>
+
+      <td><a href="/stock/admin_view_batch_del/{{ i.id }}">Delete</a></td>
+
+        {% endfor %}
+    </tr>
+  </table>
+</form>
+{% endblock %}
