@@ -1,0 +1,42 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<h1 align="center">VIEW COURSE</h1>
+<form id="form1" name="form1" method="post" action="/stock/admin_view_course_search/">
+  <table class="table table-bordered" >
+    <tr>
+      <td >COURSE NAME </td>
+      <td >
+        <input type="text" name="textfield" class="form-control" />
+      </td>
+      <td width="86"><label>
+        <input type="submit" name="Submit" value="Search"  class="btn btn-success" />
+      </label></td>
+    </tr>
+  </table>
+  <table  border="1" align="center" class="table table-bordered">
+    <tr>
+      <td>Sl.No</td>
+      <td width="86" >Course Name </td>
+      <td>Description</td>
+      <td>Duration</td>
+      <td>Fee</td>
+      <td></td>
+      <td></td>
+    </tr>
+      {% for i in c  %}
+
+
+    <tr>
+      <td height="25">{{ forloop.counter }}</td>
+      <td>{{ i.course_name }}</td>
+      <td>{{ i.discription }}</td>
+      <td>&nbsp;{{ i.duration }}</td>
+      <td>&nbsp;{{ i.amount }}</td>
+      <td><a href="/stock/admin_view_course_edit/{{ i.id }}">Edit</a></td>
+      <td><a href="/stock/admin_view_course_del/{{ i.id }}">Delete</a></td>
+    </tr>
+
+      {% endfor %}
+  </table>
+</form>
+{% endblock %}
