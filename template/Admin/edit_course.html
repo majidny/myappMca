@@ -1,0 +1,45 @@
+{% extends "admin_index.html" %}
+{% block body %}
+
+<form id="form1" name="form1" method="post" action="/stock/admin_course_update/">
+  <table class="table table-bordered">
+    <tr>
+      <td width="92">course name </td>
+      <td width="188">
+        <input type="text" class="form-control" name="textfield" value="{{ c.course_name }}"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Description</td>
+      <td>
+        <textarea class="form-control" name="textarea">{{ c.discription }}</textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td>
+        <input type="text" class="form-control"  name="textfield2" value="{{ c.duration }}" />
+      </td>
+    </tr>
+
+       <tr>
+      <th>FEE</th>
+      <td>
+        <input type="text" name="textfield3"  class="form-control" value="{{ c.amount }}" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div align="center">
+          <input type="submit" name="Submit" value="Update" class="btn btn-success" />
+          </div>
+      </td>
+    </tr>
+  </table>
+</form>
+
+{% endblock %}
+
+
+
+
