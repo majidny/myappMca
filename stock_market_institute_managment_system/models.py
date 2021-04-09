@@ -14,6 +14,7 @@ class course(models.Model):
     course_name=models.CharField(max_length=100)
     discription=models.CharField(max_length=100)
     duration=models.CharField(max_length=100)
+    amount=models.CharField(max_length=100)
 
     class Meta:
         db_table = 'course'
@@ -30,6 +31,7 @@ class batch(models.Model):
 class faculty(models.Model):
     LOGIN=models.ForeignKey(login,on_delete=models.CASCADE)
     facultyname=models.CharField(max_length=100)
+    gender=models.CharField(max_length=100, default="male")
     email=models.CharField(max_length=100)
     phone_no=models.CharField(max_length=100)
     image=models.FileField(max_length=200)
@@ -45,6 +47,7 @@ class faculty(models.Model):
 class student(models.Model):
     LOGIN=models.ForeignKey(login,on_delete=models.CASCADE)
     student_name=models.CharField(max_length=100)
+    gender=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     phone_no=models.CharField(max_length=100)
     housename=models.CharField(max_length=100)
@@ -178,10 +181,3 @@ class facultyattedence(models.Model):
 
 
 
-
-class abcd(models.Model):
-    aaaa=models.CharField(max_length=150)
-
-
-class abcde(models.Model):
-    aaaa=models.CharField(max_length=150)
