@@ -1,0 +1,64 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<u><h1 align="center">View Students</h1></u>
+<form id="form1" name="form1" method="post" action="">
+  <table class="table table-bordered">
+    <tr>
+      <td>Course Name</td>
+      <td>
+        <select name="select" class="form-control">
+        </select>
+      </td>
+      <td>Batch</td>
+      <td>
+        <select name="select2" class="form-control">
+        </select>
+      </td>
+      <td>
+        <input type="submit" name="Submit" value="Go" class="btn btn-success" />
+      </td>
+      <td>Search Student Name </td>
+      <td>
+        <input type="text" name="textfield" class="form-control" />
+      </td>
+      <td>
+        <input type="submit" name="Submit2" value="Search" class="btn btn-success" />
+      </td>
+    </tr>
+  </table>
+  <table class="table table-bordered">
+    <tr>
+      <td>Sl.No</td>
+      <td>Name</td>
+      <td>Gender</td>
+      <td>DOB</td>
+      <td>Image</td>
+      <td>Email</td>
+      <td>Phon.No</td>
+      <td>Address</td>
+      <td>Course</td>
+      <td>Batch</td>
+      <td>&nbsp;</td>
+    </tr>
+      {% for i in c  %}
+
+    <tr>
+      <td>&nbsp;{{ forloop.counter }}</td>
+      <td>&nbsp;{{ i.student_name }}</td>
+      <td>{{ i.gender }}&nbsp;</td>
+      <td>&nbsp;{{ i.dob }}</td>
+       <td><img src="{{ i.image }}" height="60px" width="60"></td>
+      <td>&nbsp;{{ i.email }}</td>
+      <td>&nbsp;{{ i.phone_no }}</td>
+      <td>&nbsp;{{ i.house_name}}<br>{{ i.place }}<br>{{ i.post }}<br>{{ i.pin }}</td>
+
+      <td>{{ i.BATCH.COURSE.course_name }}&nbsp;</td>
+      <td>{{ i.BATCH.batch_name }}&nbsp;</td>
+
+      <td><p><a href="#">edit</a></p>
+      <p><a href="#">delete</a></p></td>
+        {% endfor %}
+    </tr>
+  </table>
+</form>
+{% endblock %}
