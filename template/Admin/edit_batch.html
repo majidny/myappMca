@@ -1,0 +1,71 @@
+{% extends "admin_index.html" %}
+{% block body %}
+
+<form id="form1" name="form1" method="post" action="/stock/admin_batch_update/">
+  <table class="table table-bordered">
+    <tr>
+      <td>Batch Name </td>
+      <td>
+        <input type="text" name="textfield" class="form-control" value="{{ bb }}" />
+      </td>
+    </tr>
+    <tr>
+      <td>Batch Year </td>
+      <td>
+        <select name="select" class="form-control">
+            <option>2021</option>
+            <option>2022</option>
+            <option>2023</option>
+            <option>2024</option>
+            <option>2025</option>
+            <option>2026</option>
+            <option>2027</option>
+
+
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Batch Month </td>
+      <td>
+        <select name="select2">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">july</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">Nnovember</option>
+            <option value="December">December</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Course</td>
+      <td>
+        <select name="select3">
+             {% for i in cc %}
+
+
+
+            <option value="{{ i.pk }}"> {{ i.course_name }} </option>
+
+            {% endfor %}
+
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div align="center">
+          <input type="submit" name="Submit" value="Update" />
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
