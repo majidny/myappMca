@@ -1,0 +1,82 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<u><h1 align="center">Add Faculty</h1></u>
+<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+{% csrf_token %}
+  <table class="table table-bordered"  align="center" >
+    <tr>
+      <td>Name</td>
+      <td>
+        <input type="text" name="textfield"  class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Gender</td>
+      <td>
+        <input name="radiobutton" type="radio" value="male"  />
+      male
+      <input name="radiobutton" type="radio" value="female"  />
+      female</td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <input type="text" name="textfield2" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Phon.No</td>
+      <td>
+        <input type="text" name="textfield3" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Image</td>
+      <td>
+        <input type="file" name="file" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>House Name </td>
+      <td>
+        <input type="text" name="textfield4"  class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Place</td>
+      <td>
+        <input type="text" name="textfield5"  class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <td>Post</td>
+      <td>
+        <input type="text" name="textfield6" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Pin</td>
+      <td>
+        <input type="text" name="textfield7" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td>Batch</td>
+      <td>
+        <select name="select" class="form-control">
+            {% for i in c %}
+                <option value="{{ i.id }}">{{ i.batch_name }}</option>
+            {% endfor %}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+       
+          <input type="submit" name="Submit" value="Add" class="btn btn-success"  />
+          
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
