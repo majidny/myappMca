@@ -1,0 +1,45 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="/stock/admin_view_career_search/">
+  <table class="table table-bordered">
+    <tr>
+      <th>Carrier Name </th>
+      <td>
+        <input type="text" name="textfield" class="form-control"/>
+      </td>
+      <td>
+        <input type="submit" name="Submit" value="Search" class="btn btn-success"/>
+      </td>
+    </tr>
+  </table>
+  <table class="table table-bordered">
+    <tr>
+      <th>Sl.No</th>
+      <th>Date</th>
+      <th>Title</th>
+      <th>Discription</th>
+      <th>Last Date </th>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+
+
+    </tr>
+      {% for i in c %}
+    <tr>
+
+      <th>&nbsp;{{ forloop.counter}} </th>
+      <td>&nbsp;{{ i.date }}</td>
+      <td>{{ i.title }}&nbsp;</td>
+      <td>{{ i.discription }}&nbsp;</td>
+      <td>{{ i.lastdate }}&nbsp;</td>
+      <td><a href="{{ i.file }}">download</a></td>
+
+      <td><p><a href="/stock/admin_edit_career/{{ i.id }}">edit</a></p>
+      <p><a href="/stock/admin_view_career_del/{{ i.id }}">delete</a></p></td>
+        {% endfor %}
+    </tr>
+
+  </table>
+  <a href="#"></a>
+</form>
+{% endblock %}
