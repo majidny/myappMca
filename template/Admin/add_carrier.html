@@ -1,0 +1,39 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<form action="/stock/admin_add_career_post/" method="post" enctype="multipart/form-data" name="form1" id="form1">
+
+  <table class="table table-bordered">
+    <tr>
+      <th>Title</th>
+      <td>
+        <input type="text" name="textfield" class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <th>Discription</th>
+      <td>
+        <input type="text" name="textfield2" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <th>File Path </th>
+      <td>
+        <input type="file" name="file"  class="form-control"/>
+      </td>
+    </tr>
+    <tr>
+      <th>Last Date </th>
+      <td>
+        <input type="date" name="textfield3" class="form-control" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+      
+          <input type="submit" name="Submit" value="Add"  class="btn btn-success"/>
+         
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
