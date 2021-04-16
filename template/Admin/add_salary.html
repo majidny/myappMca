@@ -1,0 +1,28 @@
+{% extends "admin_index.html" %}
+{% block body %}
+<form id="form1" name="form1" method="post" action="/stock/admin_add_salary_post/">
+  <table class="table table-bordered"   align="center">
+    <tr>
+      <th>Faculty</th>
+      <th>{{ c.facultyname }}</th>
+    </tr>
+    <tr>
+      <th>Phone Number </th>
+      <th>{{ c.phone_no }}</th>
+    </tr>
+    <tr>
+      <th>Salary</th>
+      <td><label>
+        <input type="text" class="form-control"  name="textfield3" value="{{ sal }}" />
+      </label></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center"><label>
+  
+          <input type="submit" name="Submit" value="Submit" class="btn btn-success"/>
+         
+      </label></td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
