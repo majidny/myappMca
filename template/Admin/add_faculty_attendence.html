@@ -1,0 +1,36 @@
+{% extends "admin_index.html" %}
+{% block body %}
+    <h1 align="center"><b>ADD FACULTY ATTENDENCE</b></h1>
+<form id="form1" name="form1" method="post" action="/stock/admin_add_faculty_attendence_post/">
+ <table class="table table-bordered">
+    <tr>
+      <th style="font-size:150%;" >Sl.No</th>
+      <th style="font-size:150%;" >Faculty Name </th>
+        <td></td>
+
+    </tr>
+    {% for i in c  %}
+
+    <tr>
+        <th style="font-size:150%;">&nbsp;{{ forloop.counter }}</th>
+      <td style="font-size:150%;" >&nbsp;{{ i.facultyname }} </td>
+
+      <th>
+        <input type="checkbox" name="tag" style="zoom:2;"  value="{{ i.id }}" />
+      </th>
+    </tr>
+       {% endfor %}
+ <tr>
+      <td colspan="3" align="center">
+
+          <input type="submit" name="Submit" value="Add" class="btn btn-success" />
+
+      </td>
+    </tr>
+ </table>
+
+
+
+
+</form>
+{% endblock %}
