@@ -1,0 +1,26 @@
+{% extends "admin_index.html" %}
+{% block body %}
+     <h1 align="center"><b>FACULTY SALARY</b></h1>
+<form id="form1" name="form1" method="post" action="">
+  <table  class="table table-bordered" >
+    <tr>
+      <th style="font-size:150%;">Sl.No</th>
+      <th style="font-size:150%;">Faculty</th>
+      <th style="font-size:150%;">Phone Number </th>
+      <th style="font-size:150%;">Salary</th>
+      <th>&nbsp;</th>
+    </tr>
+      {% for i in c  %}
+
+    <tr>
+      <th style="font-size:150%;">{{ forloop.counter }}&nbsp;</th>
+      <td style="font-size:150%;">{{ i.FACULTY.facultyname }}&nbsp;</td>
+      <td style="font-size:150%;">&nbsp;{{ i.FACULTY.phone_no}}</td>
+      <td style="font-size:150%;">&nbsp;{{ i.salary }}</td>
+      <td style="font-size:120%;"><a href="/stock/admin_view_salary_edit/{{ i.id }}">Edit</a></td>
+    </tr>
+      {% endfor %}
+
+  </table>
+</form>
+{% endblock %}
