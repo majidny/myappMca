@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fc_view_assigned_batches">
+
+    <!--<ListView-->
+        <!--android:id="@+id/listbatch"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="591dp"-->
+
+        <!--android:layout_marginTop="25dp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textView62" />-->
+
+    <TextView
+        android:id="@+id/textView62"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="VIEW BATCH"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="120dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Batch Name "
+        android:textSize="19dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView31"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView62" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="214dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView30"
+        app:layout_constraintTop_toBottomOf="@+id/textView62" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="124dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="24dp"
+        android:text="Batch Year "
+        android:textStyle="bold"
+        android:textSize="19dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="211dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="27dp"
+        android:text="TextView"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView32"
+        app:layout_constraintTop_toBottomOf="@+id/textView31" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="121dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="32dp"
+        android:text="Batch Month "
+        android:textStyle="bold"
+        android:textSize="19dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="201dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView34"
+        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="115dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="32dp"
+        android:text="Course "
+        android:textSize="19dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="210dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView36"
+        app:layout_constraintTop_toBottomOf="@+id/textView35" />
+</android.support.constraint.ConstraintLayout>
