@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,20 +24,30 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_view_faculties extends AppCompatActivity {
-    ListView listfaculty;
-    String[] name,image,email,phone,housenme,place,quali,exp;
+public class study_meterial_first extends AppCompatActivity implements View.OnClickListener {
+    ListView sdy;
+    String[] date,title,file,id;
+    FloatingActionButton add;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_view_faculties);
-        listfaculty=(ListView)findViewById(R.id.list2);
+        setContentView(R.layout.activity_study_meterial_first);
+        sdy=(ListView)findViewById(R.id.liststdy);
+        add=(FloatingActionButton)findViewById(R.id.floatingActionButton);
+        add.setOnClickListener(this);
+
+
+
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        final String maclis=sh.getString("mac_list","");
 //        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/ad_view_faculties/";
+        String url = "http://" + hu + ":8000/stock/and_study_materials/";
 
 
 
@@ -51,14 +64,11 @@ public class fc_view_faculties extends AppCompatActivity {
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
                                 JSONArray js= jsonObj.getJSONArray("users");
-                                name=new String[js.length()];
-                                image=new String[js.length()];
-                                email=new String[js.length()];
-                                phone=new String[js.length()];
-                                housenme=new String[js.length()];
-                                place=new String[js.length()];
-                                quali=new String[js.length()];
-                                exp=new String[js.length()];
+                                date=new String[js.length()];
+                                title=new String[js.length()];
+                                file=new String[js.length()];
+                                id=new String[js.length()];
+
 
 //                                type=new String[js.length()];
 //                                discription=new String[js.length()];
@@ -71,32 +81,16 @@ public class fc_view_faculties extends AppCompatActivity {
                                 for(int i=0;i<js.length();i++)
                                 {
                                     JSONObject u=js.getJSONObject(i);
-                                    image[i]=u.getString("Image");
-                                    name[i]=u.getString("faculty_name");
-                                    email[i]=u.getString("Email");
-                                    phone[i]=u.getString("Phone");
-                                    housenme[i]=u.getString("housename");
-                                    place[i]=u.getString("place");
-                                    quali[i]=u.getString("qualification");
-                                    exp[i]=u.getString("experince");
+                                    date[i]=u.getString("date");
+                                    title[i]=u.getString("title");
+                                    file[i]=u.getString("file");
+                                    id[i]=u.getString("id");
 
 
-//                                    type[i]=u.getString("type");
-//                                    discription[i]=u.getString("description");
-//                                    image[i]=u.getString("image");
-//                                    status[i]=u.getString("status");
 
 
                                 }
-//                                for(int i=0;i<js1.length();i++)
-//                                {
-//                                    JSONObject u=js1.getJSONObject(i);
-//                                    rating[i]=u.getString("rating");
-//
-//                                }
-
-                                // ArrayAdapter<String> adpt=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,name);
-                                listfaculty.setAdapter(new cust_view_faculty(getApplicationContext(),image,name,email,phone,housenme,place,quali,exp));
+                                         sdy.setAdapter(new cust_study_materials(getApplicationContext(),date,title,file,id));
                                 // l1.setAdapter(new Custom(getApplicationContext(),gamecode,name,type,discription,image,status));
                             }
 
@@ -125,7 +119,7 @@ public class fc_view_faculties extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
                 String id=sh.getString("lid","");
-                params.put("uid",id);
+                params.put("lid",id);
 //                params.put("mac",maclis);
 
                 return params;
@@ -141,5 +135,11 @@ public class fc_view_faculties extends AppCompatActivity {
         requestQueue.add(postRequest);
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent i=new Intent(getApplicationContext(),study_materials.class);
+        startActivity(i);
     }
 }

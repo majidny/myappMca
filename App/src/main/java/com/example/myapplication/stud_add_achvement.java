@@ -13,12 +13,8 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -29,7 +25,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -40,142 +35,35 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_add_syllabus extends AppCompatActivity implements View.OnClickListener {
-    TextView  coursename;
-    EditText titl;
-    Button choose_btn,add_btn;
-    TextView tv;
+public class stud_add_achvement extends AppCompatActivity implements View.OnClickListener {
 
+    EditText edname,eddescription;
+    Button btbrowse,btsubmit;
     String path, atype, fname, attach, attatch1;
     byte[] byteArray = null;
 
-    String [] cid,cname;
-    Spinner sps;
-
-    public void load()
-    {
-        SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        final String maclis=sh.getString("mac_list","");
-//        String uid=sh.getString("uid","");
-        String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/fac_viewassignedcourse/";
-
-
-
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //  Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-
-                        // response
-                        try {
-                            JSONObject jsonObj = new JSONObject(response);
-                            if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
-
-                                JSONArray js= jsonObj.getJSONArray("users");
-                                cid=new String[js.length()];
-                                cname=new String[js.length()];
-
-
-                                for(int i=0;i<js.length();i++)
-                                {
-                                    JSONObject u=js.getJSONObject(i);
-                                    cid[i]=u.getString("cid");
-                                    cname[i]=u.getString("cname");
-
-                                }
-
-                                sps.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,cname));
-
-
-//
-                          }
-
-
-                            // }
-                            else {
-                                Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
-                            }
-
-                        }    catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Toast.makeText(getApplicationContext(), "eeeee" + error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                Map<String, String> params = new HashMap<String, String>();
-
-                String id=sh.getString("lid","");
-                params.put("uid",id);
-//                params.put("mac",maclis);
-
-                return params;
-            }
-        };
-
-        int MY_SOCKET_TIMEOUT_MS=100000;
-
-        postRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(postRequest);
+    @Override
+    public void onBackPressed() {
+        Intent ins= new Intent(getApplicationContext(),student_home.class);
+        startActivity(ins);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_add_syllabus);
-        coursename=(TextView) findViewById(R.id.textView76);
-        titl=(EditText) findViewById(R.id.editText6);
-        choose_btn=(Button)findViewById(R.id.button10);
-        add_btn=(Button)findViewById(R.id.button13);
-        tv=(TextView) findViewById(R.id.textView95);
-
-        sps=(Spinner) findViewById(R.id.spinner);
+        setContentView(R.layout.activity_stud_add_achvement);
 
 
-        sps.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                pos= position;
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        edname=(EditText) findViewById(R.id.editTextTextPersonName);
+        eddescription=(EditText) findViewById(R.id.editText11);
+        btbrowse=(Button) findViewById(R.id.button20);
+        btsubmit=(Button) findViewById(R.id.button21);
 
 
-        SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        choose_btn=(Button)findViewById(R.id.button10);
-        add_btn=(Button)findViewById(R.id.button13);
-
-        choose_btn.setOnClickListener(this);
-        add_btn.setOnClickListener(this);
-
-        load();
-
-
+        btbrowse.setOnClickListener(this);
+        btsubmit.setOnClickListener(this);
     }
+
     void showfilechooser(int string) {
         // TODO Auto-generated method stub
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -209,7 +97,7 @@ public class fc_add_syllabus extends AppCompatActivity implements View.OnClickLi
 
 
                     fname = path.substring(path.lastIndexOf("/") + 1);
-//                    tv.setText(fname);
+//                    .setText(fname);
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -253,23 +141,19 @@ public class fc_add_syllabus extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    int pos=0;
-
     @Override
-    public void onClick(View view) {
-        if(view==choose_btn)
+    public void onClick(View v) {
+        if(v==btbrowse)
         {
             showfilechooser(1);
 
         }
-        if(view==add_btn)
+        else
         {
-
-
             SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
             String hu = sh.getString("ip", "");
-            String url = "http://" + hu + ":8000/stock/and_add_syllbus/";
+            String url = "http://" + hu + ":8000/stock/stud_add_achievements/";
             //  Toast.makeText(getApplicationContext(),"tt="+url,Toast.LENGTH_LONG).show();
 
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -277,27 +161,15 @@ public class fc_add_syllabus extends AppCompatActivity implements View.OnClickLi
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            //  Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
 
-                            // response
                             try {
                                 JSONObject jsonObj = new JSONObject(response);
                                 if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
-                                    Toast.makeText(getApplicationContext(), "Added", Toast.LENGTH_SHORT).show();
-                                    Intent ij = new Intent(getApplicationContext(), fc_view_sylabus.class);
-                                    startActivity(ij);
-
+                                    Toast.makeText(getApplicationContext(), "Successfully added", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
 
                                 }
-
-
-                                // }
-//                                    else {
-//                                     Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
-//                                    }
-
                             } catch (Exception e) {
                                 Toast.makeText(getApplicationContext(), "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                             }
@@ -316,13 +188,11 @@ public class fc_add_syllabus extends AppCompatActivity implements View.OnClickLi
                     SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     Map<String, String> params = new HashMap<String, String>();
 
-//                String id=sh.getString("uid","");
-                    params.put("title", titl.getText().toString());
-                    params.put("file22", attach);
+                    params.put("name", edname.getText().toString());
+                    params.put("file", attach);
                     params.put("lid", sh.getString("lid",""));
-                    params.put("cid", cid[pos]);
+                    params.put("description", eddescription.getText().toString());
 
-//                params.put("mac",maclis);
 
                     return params;
                 }
@@ -337,13 +207,6 @@ public class fc_add_syllabus extends AppCompatActivity implements View.OnClickLi
             requestQueue.add(postRequest);
 
         }
-
-
-
-}
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 }

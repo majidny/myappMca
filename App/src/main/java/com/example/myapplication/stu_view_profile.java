@@ -1,10 +1,11 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,40 +24,36 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_view_profile extends AppCompatActivity {
-    com.mikhaellopez.circularimageview.CircularImageView prof;
-    TextView name,email,mob,housname,place,post,pin,exp,quli;
+public class stu_view_profile extends AppCompatActivity {
+
+    com.mikhaellopez.circularimageview.CircularImageView pro;
+    TextView name,email,phon,housename,place,post,pin,coursename,btc;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_view_profile);
-        prof=(com.mikhaellopez.circularimageview.CircularImageView)findViewById(R.id.img);
+        setContentView(R.layout.activity_stu_view_profile);
+
+        pro=(com.mikhaellopez.circularimageview.CircularImageView)findViewById(R.id.img);
         name=(TextView)findViewById(R.id.ifg);
+
         email=(TextView)findViewById(R.id.ks);
-        mob=(TextView)findViewById(R.id.textView7);
-        housname=(TextView)findViewById(R.id.textView9);
-        place=(TextView)findViewById(R.id.textView11);
-        post=(TextView)findViewById(R.id.textView13);
-        pin=(TextView)findViewById(R.id.textView15);
-        exp=(TextView)findViewById(R.id.esp2);
-        quli=(TextView)findViewById(R.id.textquali2);
+        phon=(TextView)findViewById(R.id.textView143);
+        housename=(TextView)findViewById(R.id.textView145);
+        place=(TextView)findViewById(R.id.textView147);
+        post=(TextView)findViewById(R.id.textView149);
+        pin=(TextView)findViewById(R.id.textView151);
+        coursename=(TextView)findViewById(R.id.textView153);
+        btc=(TextView)findViewById(R.id.textView155);
 
 
-//        final String name1=name.getText().toString();
-//        final String email1=email.getText().toString();
-//        final String mob1=mob.getText().toString();
-//        final String housename1=housname.getText().toString();
-//        final String place1=place.getText().toString();
-//        final String post1=post.getText().toString();
-//        final String pin1=pin.getText().toString();
 
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/ad_faculty_view_profile/";
+        String url = "http://" + hu + ":8000/stock/ad_student_view_profile/";
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -70,7 +67,7 @@ public class fc_view_profile extends AppCompatActivity {
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
 
-                                String name2=jsonObj.getString("facultyname");
+                                String name2=jsonObj.getString("name");
                                 String email2=jsonObj.getString("email");
 
                                 String phonenumber2=jsonObj.getString("phonenumber");
@@ -78,33 +75,33 @@ public class fc_view_profile extends AppCompatActivity {
                                 String place2=jsonObj.getString("place");
                                 String post2=jsonObj.getString("post");
                                 String pin2=jsonObj.getString("pin");
-                                String qualif=jsonObj.getString("qualification");
-                                String expern=jsonObj.getString("experince");
+                                String qualif=jsonObj.getString("coursename");
+                                String expern=jsonObj.getString("batchname");
 
                                 String img22=jsonObj.getString("image");
 
 
                                 name.setTextColor(Color.BLACK);
                                 email.setTextColor(Color.BLACK);
-                                housname.setTextColor(Color.BLACK);
-                                mob.setTextColor(Color.BLACK);
+                                phon.setTextColor(Color.BLACK);
+                                housename.setTextColor(Color.BLACK);
                                 place.setTextColor(Color.BLACK);
                                 post.setTextColor(Color.BLACK);
                                 pin.setTextColor(Color.BLACK);
-                                quli.setTextColor(Color.BLACK);
-                                exp.setTextColor(Color.BLACK);
+                                coursename.setTextColor(Color.BLACK);
+                                btc.setTextColor(Color.BLACK);
 
 
 
                                 name.setText(name2);
                                 email.setText(email2);
-                                housname.setText(house2);
-                                mob.setText(phonenumber2);
+                                phon.setText(house2);
+                                housename.setText(phonenumber2);
                                 place.setText(place2);
                                 post.setText(post2);
                                 pin.setText(pin2);
-                                quli.setText(qualif);
-                                exp.setText(expern);
+                                coursename.setText(qualif);
+                                btc.setText(expern);
 
 
 
@@ -124,7 +121,7 @@ public class fc_view_profile extends AppCompatActivity {
                                 ed.commit();
                                 String url="http://" + ip + ":8000"+img22;
 //                                Toast.makeText(getApplicationContext(), "pt="+url , Toast.LENGTH_SHORT).show();
-                                Picasso.with(getApplicationContext()).load(url).into(prof);
+                                Picasso.with(getApplicationContext()).load(url).into(pro);
 
                             }
 
@@ -167,6 +164,9 @@ public class fc_view_profile extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(postRequest);
+
+
+
 
 
 

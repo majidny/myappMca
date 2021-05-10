@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,26 +8,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class cust_view_students extends BaseAdapter {
-    String[] name,email,phonenumber,coursename;
+
+public class cust_batch_assign extends BaseAdapter {
+
+    String[] btchname,btchyear,btchmonth,course;
     private Context context;
 
-    public cust_view_students(Context appcontext,String[]name,String[]email,String[]phonenumber,String[]coursename)
+    public cust_batch_assign(Context appcontext,String[]btchname,String[]btchyear,String[]btchmonth,String[]course)
     {
         this.context=appcontext;
 
-
-        this.name=name;
-        this.email=email;
-        this.phonenumber=phonenumber;
-        this.coursename=coursename;
-
+        this.btchname=btchname;
+        this.btchyear=btchyear;
+        this.btchmonth=btchmonth;
+        this.course=course;
 
     }
 
     @Override
     public int getCount() {
-        return name.length;
+        return btchname.length;
     }
 
     @Override
@@ -51,7 +49,7 @@ public class cust_view_students extends BaseAdapter {
         {
             gridView=new View(context);
             //gridView=inflator.inflate(R.layout.customview, null);
-            gridView=inflator.inflate(R.layout.cust_view_students,null);
+            gridView=inflator.inflate(R.layout.cust_view_assigned_batches,null);
 
         }
         else
@@ -60,10 +58,10 @@ public class cust_view_students extends BaseAdapter {
 
         }
 
-        TextView tv1=(TextView)gridView.findViewById(R.id.coursname);
-        TextView tv2=(TextView)gridView.findViewById(R.id.title);
-        TextView tv3=(TextView)gridView.findViewById(R.id.textView56);
-        TextView tv4=(TextView)gridView.findViewById(R.id.textView58);
+        TextView tv1=(TextView)gridView.findViewById(R.id.textView31);
+        TextView tv2=(TextView)gridView.findViewById(R.id.textView33);
+        TextView tv3=(TextView)gridView.findViewById(R.id.textView35);
+        TextView tv4=(TextView)gridView.findViewById(R.id.textView37);
 
 
 
@@ -71,11 +69,10 @@ public class cust_view_students extends BaseAdapter {
         tv1.setTextColor(Color.BLACK);
 
 
-        tv1.setText(name[i]);
-        tv2.setText(email[i]);
-        tv3.setText(phonenumber[i]);
-        tv4.setText(coursename[i]);
-
+        tv1.setText(btchname[i]);
+        tv2.setText(btchyear[i]);
+        tv3.setText(btchmonth[i]);
+        tv4.setText(course[i]);
 
 
 
@@ -86,11 +83,13 @@ public class cust_view_students extends BaseAdapter {
 //        SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(context);
 //        String ip=sh.getString("ip","");
 //
-//        String url="http://" + ip + ":8000/media/"+image[i]+".jpg";
+//        String url="http://" + ip + ":8000/media/"+Image[i]+".jpg";
 //
 //
 //        Picasso.with(context).load(url). into(im);
 
         return gridView;
     }
+
+
 }

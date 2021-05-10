@@ -1,9 +1,10 @@
 package com.example.myapplication;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,20 +22,21 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_view_faculties extends AppCompatActivity {
-    ListView listfaculty;
-    String[] name,image,email,phone,housenme,place,quali,exp;
+public class fc_new_batchass_lis extends AppCompatActivity {
+    ListView listbassign;
+
+    String[] btchname,btchyear,btchmonth,course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_view_faculties);
-        listfaculty=(ListView)findViewById(R.id.list2);
+        setContentView(R.layout.activity_fc_new_batchass_lis);
+        listbassign=(ListView)findViewById(R.id.listbatch);
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        final String maclis=sh.getString("mac_list","");
 //        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/ad_view_faculties/";
+        String url = "http://" + hu + ":8000/stock/ad_view_assigned_batches/";
 
 
 
@@ -51,15 +53,10 @@ public class fc_view_faculties extends AppCompatActivity {
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
                                 JSONArray js= jsonObj.getJSONArray("users");
-                                name=new String[js.length()];
-                                image=new String[js.length()];
-                                email=new String[js.length()];
-                                phone=new String[js.length()];
-                                housenme=new String[js.length()];
-                                place=new String[js.length()];
-                                quali=new String[js.length()];
-                                exp=new String[js.length()];
-
+                                btchname=new String[js.length()];
+                                btchyear=new String[js.length()];
+                                btchmonth=new String[js.length()];
+                                course=new String[js.length()];
 //                                type=new String[js.length()];
 //                                discription=new String[js.length()];
 //                                image=new String[js.length()];
@@ -71,15 +68,10 @@ public class fc_view_faculties extends AppCompatActivity {
                                 for(int i=0;i<js.length();i++)
                                 {
                                     JSONObject u=js.getJSONObject(i);
-                                    image[i]=u.getString("Image");
-                                    name[i]=u.getString("faculty_name");
-                                    email[i]=u.getString("Email");
-                                    phone[i]=u.getString("Phone");
-                                    housenme[i]=u.getString("housename");
-                                    place[i]=u.getString("place");
-                                    quali[i]=u.getString("qualification");
-                                    exp[i]=u.getString("experince");
-
+                                    btchname[i]=u.getString("Batch_name");
+                                    btchyear[i]=u.getString("Batch_year");
+                                    btchmonth[i]=u.getString("batch_month");
+                                    course[i]=u.getString("course_name");
 
 //                                    type[i]=u.getString("type");
 //                                    discription[i]=u.getString("description");
@@ -96,7 +88,7 @@ public class fc_view_faculties extends AppCompatActivity {
 //                                }
 
                                 // ArrayAdapter<String> adpt=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,name);
-                                listfaculty.setAdapter(new cust_view_faculty(getApplicationContext(),image,name,email,phone,housenme,place,quali,exp));
+                                listbassign.setAdapter(new cust_batch_assign(getApplicationContext(),btchname,btchyear,btchmonth,course));
                                 // l1.setAdapter(new Custom(getApplicationContext(),gamecode,name,type,discription,image,status));
                             }
 
@@ -125,7 +117,7 @@ public class fc_view_faculties extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
                 String id=sh.getString("lid","");
-                params.put("uid",id);
+                params.put("lid",id);
 //                params.put("mac",maclis);
 
                 return params;
@@ -139,7 +131,6 @@ public class fc_view_faculties extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(postRequest);
-
 
     }
 }

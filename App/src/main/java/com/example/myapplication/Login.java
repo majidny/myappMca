@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,12 +8,8 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -25,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -44,11 +38,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         ed1=(EditText)findViewById(R.id.editText2);
         ed2=(EditText)findViewById(R.id.editText4);
+//        ed1.setText("abilash@gmail.com");
+//        ed2.setText("1");
+        ed1.setText("rohan@gmail.com");
+        ed2.setText("92226");
         btn=(Button)findViewById(R.id.button);
         btn.setOnClickListener(this);
 
 
-        
+
     }
 
     @Override
@@ -98,24 +96,46 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                                         ed.commit();
                                         if (ty.equalsIgnoreCase("faculty")) {
+                                            String batch_id = jsonObj.getString("batch_id");
+                                            String bname = jsonObj.getString("bname");
+                                            String cname = jsonObj.getString("cname");
+                                            SharedPreferences.Editor ed1 = sh.edit();
+                                            ed1.putString("batch_id", batch_id);
+
+
+
+
+
+                                            ed1.putString("bname", bname);
+                                            ed1.putString("cname", cname);
+                                            ed1.commit();
                                             Intent ij = new Intent(getApplicationContext(), Home.class);
                                             startActivity(ij);
                                         }
-//                                        if (ty.equalsIgnoreCase("delivery")) {
-//                                            Intent ij = new Intent(getApplicationContext(), Serv_home.class);
-//                                            startActivity(ij);
-//                                        }
+
+
+                                        if (ty.equalsIgnoreCase("student")) {
+                                            String lid = jsonObj.getString("id");
+                                            String batch_id = jsonObj.getString("batch_id");
+
+                                            SharedPreferences.Editor ed1 = sh.edit();
+                                            ed1.putString("lid", lid);
+                                            ed1.putString("batch_id", batch_id);
+
+
+                                            ed1.commit();
+                                            Intent ij = new Intent(getApplicationContext(), student_home.class);
+                                            startActivity(ij);
+                                        }
 
 
                                     }
-                                    if (jsonObj.getString("status").equalsIgnoreCase("no")) {
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Invalid details", Toast.LENGTH_SHORT).show();
+
                                     }
 
 
-                                    // }
-//                                    else {
-//                                     Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
-//                                    }
 
                                 } catch (Exception e) {
                                     Toast.makeText(getApplicationContext(), "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
@@ -135,11 +155,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         Map<String, String> params = new HashMap<String, String>();
 
-//                String id=sh.getString("uid","");
                         params.put("uname", uname);
                         params.put("pwd", password);
 
-//                params.put("mac",maclis);
 
                         return params;
                     }

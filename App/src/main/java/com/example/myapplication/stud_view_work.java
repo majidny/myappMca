@@ -1,9 +1,10 @@
 package com.example.myapplication;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,21 +22,21 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_view_course extends AppCompatActivity {
-    ListView listcourse;
-    String[] coursename,description,duration,fee;
+public class stud_view_work extends AppCompatActivity {
 
+    ListView listwork;
+    String[] course,batch,descr,id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_view_course);
-        listcourse=(ListView)findViewById(R.id.list1);
+        setContentView(R.layout.activity_stud_view_work);
+
+        listwork=(ListView)findViewById(R.id.lwork);
+
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        final String maclis=sh.getString("mac_list","");
-//        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/ad_view_courses/";
+        String url = "http://" + hu + ":8000/stock/student_view_work/";
 
 
 
@@ -52,47 +53,20 @@ public class fc_view_course extends AppCompatActivity {
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
                                 JSONArray js= jsonObj.getJSONArray("users");
-                                coursename=new String[js.length()];
-                                description=new String[js.length()];
-                                duration=new String[js.length()];
-                                fee=new String[js.length()];
-//                                type=new String[js.length()];
-//                                discription=new String[js.length()];
-//                                image=new String[js.length()];
-//                                status=new String[js.length()];
-//
-//                                JSONArray js1= jsonObj.getJSONArray("rating");
-//                                rating=new String[js1.length()];
+                                course=new String[js.length()];
+                                batch=new String[js.length()];
+                                descr=new String[js.length()];
+                                id=new String[js.length()];
 
-                                for(int i=0;i<js.length();i++)
-                                {
-                                    JSONObject u=js.getJSONObject(i);
-                                    coursename[i]=u.getString("Course_name");
-                                    description[i]=u.getString("description");
-                                    duration[i]=u.getString("duration");
-                                    fee[i]=u.getString("fees");
-
-//                                    type[i]=u.getString("type");
-//                                    discription[i]=u.getString("description");
-//                                    image[i]=u.getString("image");
-//                                    status[i]=u.getString("status");
-
-
+                                for(int i=0;i<js.length();i++) {
+                                    JSONObject u = js.getJSONObject(i);
+                                    course[i] = u.getString("course");
+                                    batch[i] = u.getString("batch");
+                                    descr[i] = u.getString("descr");
+                                    id[i] = u.getString("id");
                                 }
-//                                for(int i=0;i<js1.length();i++)
-//                                {
-//                                    JSONObject u=js1.getJSONObject(i);
-//                                    rating[i]=u.getString("rating");
-//
-//                                }
-
-                                // ArrayAdapter<String> adpt=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,name);
-                                listcourse.setAdapter(new cust_view_course(getApplicationContext(),coursename,description,duration,fee));
-                                // l1.setAdapter(new Custom(getApplicationContext(),gamecode,name,type,discription,image,status));
+                             listwork.setAdapter(new cust_stud_work(getApplicationContext(),course,batch,descr,id));
                             }
-
-
-                            // }
                             else {
                                 Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
                             }
@@ -115,9 +89,9 @@ public class fc_view_course extends AppCompatActivity {
                 SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 Map<String, String> params = new HashMap<String, String>();
 
-                String id=sh.getString("uid","");
-                params.put("uid",id);
-//                params.put("mac",maclis);
+                String id=sh.getString("batch_id","");
+                params.put("batchid",id);
+
 
                 return params;
             }
@@ -130,7 +104,5 @@ public class fc_view_course extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(postRequest);
-
-
     }
 }

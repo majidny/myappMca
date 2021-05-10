@@ -2,26 +2,38 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import android.view.View;
+
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import android.view.MenuItem;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
 
-public class Home extends AppCompatActivity
+import android.view.Menu;
+import android.widget.Toast;
+
+public class student_home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_student_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -49,14 +61,16 @@ public class Home extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
+
+            Toast.makeText(getApplicationContext(),"Use logout in menu to exit",Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.student_home, menu);
         return true;
     }
 
@@ -84,47 +98,50 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Intent i=new Intent(getApplicationContext(),fc_view_profile.class);
+
+            Intent i=new Intent(getApplicationContext(),stu_view_profile.class);
             startActivity(i);
 
 
         } else if (id == R.id.nav_slideshow) {
-            Intent i=new Intent(getApplicationContext(),fc_view_faculties.class);
+
+            Intent i=new Intent(getApplicationContext(),stud_view_studymaterial.class);
             startActivity(i);
+
 
         } else if (id == R.id.nav_tools) {
-            Intent i=new Intent(getApplicationContext(),fc_new_batchass_lis.class);
+
+            Intent i=new Intent(getApplicationContext(),stud_view_syllabus.class);
             startActivity(i);
 
+        }
+        else if (id == R.id.nav_otherstudents) {
 
-
-
-        } else if (id == R.id.work) {
-            Intent i=new Intent(getApplicationContext(),fc_view_work.class);
+            Intent i=new Intent(getApplicationContext(),Studentviewotherstudents.class);
             startActivity(i);
 
+        }
 
+        else if (id == R.id.work) {
 
-
-        }else if (id == R.id.view_std) {
-            Intent i=new Intent(getApplicationContext(),fc_view_students.class);
+            Intent i=new Intent(getApplicationContext(),stud_view_work.class);
             startActivity(i);
 
-        } else if (id == R.id.view_cour) {
-            Intent i=new Intent(getApplicationContext(),fc_view_course.class);
-            startActivity(i);
-
-        } else if (id == R.id.study) {
-            Intent i=new Intent(getApplicationContext(),study_meterial_first.class);
-            startActivity(i);
-
-        } else if (id == R.id.syllabus) {
-            Intent i=new Intent(getApplicationContext(),fc_view_sylabus.class);
-            startActivity(i);
-
-
-        }else if (id == R.id.nav_lgout) {
+        }
+        else if (id == R.id.nav_lgout) {
             Intent i=new Intent(getApplicationContext(),Login.class);
+            startActivity(i);
+
+
+        }
+        else if (id == R.id.add_ach) {
+            Intent i=new Intent(getApplicationContext(),stud_add_achvement.class);
+            startActivity(i);
+
+
+        }
+        else if (id == R.id.view_ach) {
+            Intent i=new Intent(getApplicationContext(),stud_view_achivement.class);
             startActivity(i);
 
 

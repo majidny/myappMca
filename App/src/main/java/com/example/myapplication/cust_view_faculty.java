@@ -18,10 +18,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class cust_view_faculty extends BaseAdapter {
-    String[]Image,name,email,phonenumber,housname,place,post,pin;
+    String[]Image,name,email,phonenumber,housname,place,quali,expp;
     private Context context;
 
-    public cust_view_faculty(Context appcontext,String[]Image,String[]name,String[]email,String[]phonenumber,String[]housname,String[]place,String[]post,String[]pin)
+    public cust_view_faculty(Context appcontext,String[]Image,String[]name,String[]email,String[]phonenumber,String[]housname,String[]place,String[]quali,String[]expp )
     {
         this.context=appcontext;
 
@@ -31,8 +31,10 @@ public class cust_view_faculty extends BaseAdapter {
         this.phonenumber=phonenumber;
         this.housname=housname;
         this.place=place;
-        this.post=post;
-        this.pin=pin;
+//        this.post=post;
+//        this.pin=pin;
+        this.quali=quali;
+        this.expp=expp;
 
 
 
@@ -100,7 +102,7 @@ public class cust_view_faculty extends BaseAdapter {
 
         Button b3=(Button) gridView.findViewById(R.id.button3);
 
-        b3.setTag(Image[i]+"#"+name[i]+"#"+email[i]+"#"+phonenumber[i]+"#"+housname[i]+"#"+place[i]+"#"+post[i]+"#"+pin[i]);
+        b3.setTag(Image[i]+"#"+name[i]+"#"+email[i]+"#"+phonenumber[i]+"#"+housname[i]+"#"+place[i]+"#"+quali[i]+"#"+expp[i]);
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,12 +115,11 @@ public class cust_view_faculty extends BaseAdapter {
                 ed.putString("Image",ar[0]);
                 ed.putString("name",ar[1]);
                 ed.putString("email",ar[2]);
-
                 ed.putString("phonenumber",ar[3]);
                 ed.putString("housname",ar[4]);
                 ed.putString("place",ar[5]);
-                ed.putString("post",ar[6]);
-                ed.putString("pin",ar[7]);
+                ed.putString("qualification",ar[6]);
+                ed.putString("experince",ar[7]);
 
                 ed.commit();
                 Intent i=new Intent(context,fc_view_faculty_more.class);
