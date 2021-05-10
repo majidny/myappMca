@@ -4,7 +4,7 @@ from django.http import HttpResponse, request, JsonResponse
 from django.shortcuts import render,redirect
 import random,datetime
 # Create your views here.
-from  .models import faculty,student,salary,login,course,batch,enquiry,career,archiement,review,studymaterial,chat,attendence,exam,syllabus,work,application,facultyattedence
+from  .models import faculty,student,salary,login,course,batch,enquiry,career,archiement,review,studymaterial,chat,attendence,exam,syllabus,work,application,facultyattedence,batchassign
 def logins(request):
     if request.method == 'POST':
         username = request.POST['uname']
@@ -49,7 +49,10 @@ def admin_home(request):
 
 
 def abc(request):
+
     return render(request,"admin_index.html")
+
+
 
 def admin_add_batch_post(request):
     if request.method=="POST":
@@ -63,7 +66,6 @@ def admin_add_batch_post(request):
         b.batch_month=batchmonth
         b.COURSE=course.objects.get(pk=cc)
         b.save()
-
 
 
     c = course.objects.all()
@@ -275,6 +277,11 @@ def admin_add_course_post(request):
 
 
 
+
+
+
+
+
 def admin_add_faculty_post(request):
     if request.method=="POST":
 
@@ -282,6 +289,9 @@ def admin_add_faculty_post(request):
         gender=request.POST['radiobutton']
         email=request.POST['textfield2']
         phonenumber=request.POST['textfield3']
+        qualification=request.POST['qualification']
+        experince=request.POST['experince']
+
         image=request.FILES['file']
         fs=FileSystemStorage()
         sa=fs.save(image.name,image)
@@ -292,7 +302,7 @@ def admin_add_faculty_post(request):
         place=request.POST['textfield5']
         post=request.POST['textfield6']
         pin=request.POST['textfield7']
-        batch_id=request.POST['select']
+        # batch_id=request.POST['select']
         password=random.randint(1000,9999)
         ll=login()
         ll.username=email
@@ -304,27 +314,56 @@ def admin_add_faculty_post(request):
         fa.facultyname=name
         fa.gender=gender
         fa.email=email
+
         fa.phone_no=phonenumber
+        fa.qualifiction=qualification
+        fa.experience=experince
         fa.image=url
         fa.house_name=housename
         fa.place=place
         fa.post=post
         fa.pin=pin
-        print("ppppss=",batch_id)
-        qq=batch.objects.get(pk=batch_id)
+        # print("ppppss=",batch_id)
+        # qq=batch.objects.get(pk=batch_id)
         print("qsss")
 
         fa.LOGIN=ll
         print("qqq22")
 
 
-        fa.BATCH = qq
+        # fa.BATCH = qq
         fa.save()
+
+        # import smtplib
+        # from email.mime.multipart import MIMEMultipart
+        # from email.mime.text import MIMEText
+        #
+        # import smtplib
+        # s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+        # s.starttls()
+        # s.login("majidny22@gmail.com", "M@jid@212121")
+        # msg = MIMEMultipart()  # create a message.........."
+        # message = "New password"
+        # msg['From'] = "majidny22@gmail.com"
+        # msg['To'] = email
+        # msg['Subject'] = "Your Password"
+        # body = "Your Username is your mail and Password is:- - " + str(password)
+        # msg.attach(MIMEText(body, 'plain'))
+        # s.send_message(msg)
 
         return render(request,"admin/add_faculty.html")
     else:
         res = batch.objects.all()
         return render(request, "admin/add_faculty.html", {'c': res})
+
+
+
+
+
+
+
+
+
 
 
 
@@ -335,17 +374,32 @@ def admin_edit_faculty(request):
     return render(request,"admin/edit_faculty.html")
 
 
+
+
+
+
+
+
+
+
+
+
+
 def admin_edit_faculty_post(request):
     name = request.POST['textfield']
     gender = request.POST['radiobutton']
     email = request.POST['textfield2']
     phonenumber = request.POST['textfield3']
+    qualification = request.POST['qualification']
+    experince = request.POST['experince']
+
+
     image = request.FILES['file']
     housename = request.POST['textfield4']
     place = request.POST['textfield5']
     post = request.POST['textfield6']
     pin = request.POST['textfield7']
-    batch = request.POST['select']
+    # batch = request.POST['select']
 
     return render(request,"admin/edit_faculty.html")
 
@@ -466,6 +520,34 @@ def admin_add_student_post(request):
         res1=course.objects.all()
         return render(request, "admin/add_student.html",{"course":res1})
         # return render(request, "admin/add_student.html",{"batch": res,"course":res1})
+
+def admin_batch_assignn(request):
+    if request.method=="POST":
+
+        facullty1 = request.POST['nn']
+        batch1=request.POST['select2']
+
+
+        # datee=request.POST['textfield2']
+        qq=batchassign()
+        qq.FACULTY_id=facullty1
+        qq.BATCH_id=batch1
+
+        # qq.FACULTY=faculty.objects.get(pk=)
+        #
+        # qq.BATCH = batch.objects.get(pk=)
+        qq.date = datetime.datetime.now().date()
+        qq.save()
+        return render(request,"admin/admin_hom.html")
+
+
+
+    else:
+        fac = faculty.objects.all()
+        res1 = course.objects.all()
+
+        return render(request, "admin/bacth_assignn.html", {"course": res1,'ff':fac})
+
 
 
 def admin_edit_student(request,id):
@@ -629,24 +711,28 @@ def admin_faculty_update(request):
     gender=request.POST['radiobutton']
     email=request.POST['textfield2']
     phonnum=request.POST['textfield3']
+    qualification = request.POST['qualification']
+    experince = request.POST['experince']
 
 
     house=request.POST['textfield4']
     place=request.POST['textfield5']
     post=request.POST['textfield6']
     pin=request.POST['textfield7']
-    bname=request.POST['select']
+    # bname=request.POST['select']
 
 
 
     idz=request.session['fid']
 
-    qq=batch.objects.get(id=bname)
+    # qq=batch.objects.get(id=bname)
     obj=faculty.objects.get(pk=idz)
     obj.facultyname=fname
     obj.gender=gender
     obj.email=email
     obj.phone_no=phonnum
+    obj.experience=experince
+    obj.qualifiction=qualification
     if 'file' in request.FILES:
         image = request.FILES['file']
         fs = FileSystemStorage()
@@ -657,7 +743,7 @@ def admin_faculty_update(request):
     obj.place=place
     obj.post=post
     obj.pin=pin
-    obj.BATCH_id=qq
+    # obj.BATCH_id=qq
     obj.save()
     c=faculty.objects.all()
     return  render(request,"admin/view_faculty.html",{'c': c})
@@ -837,15 +923,71 @@ def ad_faculty_login(request):
     print(username)
     password = request.POST['pwd']
     print(password)
-    login_obj = login.objects.filter(username=username, password=password,user_type='faculty')
-    print(login_obj)
-    if login_obj.exists():
-        login_obj = login.objects.get(username=username, password=password, user_type='faculty')
+    login_obj22 = login.objects.get(username=username, password=password)
 
-        lg = login_obj.pk
-        typ=login_obj.user_type
-        print("llw")
-        return JsonResponse({'status': 'ok', 'id': lg,'usertype': typ})
+    print(login_obj22)
+
+    print(login_obj22.user_type)
+    ty=login_obj22.user_type
+
+    login_obj=login.objects.filter(username=username, password=password)
+
+    if login_obj.exists():
+        print("ooooooooo")
+        if ty =='student':
+            print("mmmmmmmmm")
+
+            login_obj = login.objects.get(username=username, password=password, user_type='student')
+
+            studentobj= student.objects.get(LOGIN=login_obj)
+
+            lg = login_obj.pk
+            typ = login_obj.user_type
+
+            return JsonResponse(
+                {'status': 'ok', 'id': lg, 'usertype': typ, 'batch_id': studentobj.BATCH.pk})
+
+
+
+        if ty =='faculty':
+
+            login_obj = login.objects.get(username=username, password=password, user_type='faculty')
+
+            lg = login_obj.pk
+            typ=login_obj.user_type
+            print("llw")
+            fac=faculty.objects.get(LOGIN=lg)
+
+            print("fff")
+            print(fac)
+
+            fac_ass=batchassign.objects.filter(FACULTY=fac)
+            bb=""
+            bname=""
+            cname=""
+
+
+
+            for ii in fac_ass:
+                print(ii.BATCH.id)
+
+                bb=bb+str(ii.BATCH.id)+","
+                bname=bname+ii.BATCH.batch_name+","
+                cname=cname+ii.BATCH.COURSE.course_name+","
+
+
+
+
+
+
+            print(bb)
+            print(bname)
+            print(cname)
+            print("hhhh")
+
+
+
+            return JsonResponse({'status': 'ok', 'id': lg,'usertype': typ,'batch_id':bb,'bname':bname,'cname':cname})
     else:
         return JsonResponse({'status': 'no'})
 
@@ -855,7 +997,7 @@ def ad_faculty_view_profile(request):
     lid = request.POST['lid']
     login_obj = login.objects.get(id=lid)
     user_obj=faculty.objects.get(LOGIN=login_obj)
-    data = {"status": "ok", 'image':user_obj.image, 'facultyname':user_obj.facultyname, 'email':user_obj.email,'phonenumber':user_obj.phone_no,'house':user_obj.house_name,'place':user_obj.place,'post':user_obj.post,'pin':user_obj.pin}
+    data = {"status": "ok", 'image':user_obj.image, 'facultyname':user_obj.facultyname, 'email':user_obj.email,'phonenumber':user_obj.phone_no,'house':user_obj.house_name,'place':user_obj.place,'experince':user_obj.experience,'qualification':user_obj.qualifiction,'post':user_obj.post,'pin':user_obj.pin}
     return JsonResponse(data)
 
 
@@ -876,7 +1018,27 @@ def ad_view_faculties(request):
     print(user_obj)
     res2 = []
     for ii in user_obj:
-        ss = {'faculty_name': ii.facultyname, 'Email': ii.email, 'Phone': ii.phone_no, 'Image': ii.image,'housename':ii.house_name,'place':ii.place,'post':ii.post,'pin':ii.pin}
+        ss = {'faculty_name': ii.facultyname, 'Email': ii.email, 'Phone': ii.phone_no, 'Image': ii.image,'housename':ii.house_name,'place':ii.place,'post':ii.post,'pin':ii.pin,'qualification':ii.qualifiction,'experince':ii.experience}
+        res2.append(ss)
+    print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+def ad_view_assigned_batches(request):
+    print("ha")
+
+    lid = request.POST['lid']
+    print(lid)
+    login_obj = login.objects.get(id=lid)
+    fac_obj = faculty.objects.get(LOGIN=login_obj)
+    #user_obj = batch.objects.get(id=fac_obj.BATCH_id)
+
+    batchass = batchassign.objects.filter(FACULTY_id=fac_obj)
+    print(batchass)
+
+    res2 = []
+    for ii in  batchass:
+        ss = { 'Batch_name': ii.BATCH.batch_name, 'Batch_year': ii.BATCH.batch_year, 'batch_month':  ii.BATCH.batch_month, 'course_name':  ii.BATCH.COURSE.course_name}
         res2.append(ss)
     print(res2)
     data = {"status": "ok", "users": res2}
@@ -885,17 +1047,18 @@ def ad_view_faculties(request):
 
 
 
+# def ad_view_assigned_batches(request):
+#     lid = request.POST['uid']
+#
+#     login_obj = login.objects.get(id=lid)
+#     fac_obj = faculty.objects.get(LOGIN=login_obj)
+#
+#     # user_obj = batch.objects.get(id=fac_obj.BATCH_id)
+#     batchass = batchassign.objects.all()
+#     data = {"status": "ok", 'Batch_name': batchass.BATCH.batch_name, 'Batch_year': batchass.BATCH.batch_year, 'batch_month':  batchass.BATCH.batch_month, 'course_name':  batchass.BATCH.COURSE.course_name}
+#     return JsonResponse(data)
+#
 
-def ad_view_assigned_batches(request):
-    lid = request.POST['uid']
-
-    login_obj = login.objects.get(id=lid)
-    fac_obj = faculty.objects.get(LOGIN=login_obj)
-
-    user_obj = batch.objects.get(id=fac_obj.BATCH_id)
-
-    data = {"status": "ok", 'Batch_name': user_obj.batch_name, 'Batch_year': user_obj.batch_year, 'batch_month': user_obj.batch_month, 'course_name': user_obj.COURSE.course_name}
-    return JsonResponse(data)
 
 
 def ad_view_students(request):
@@ -905,22 +1068,527 @@ def ad_view_students(request):
     login_id=login.objects.get(id=lid)
 
     fac_id=faculty.objects.get(LOGIN=login_id)
-    print(fac_id.BATCH.pk)
+
+    print(fac_id)
+
     print("hi")
-    batch_obj=batch.objects.get(pk=fac_id.BATCH.pk)
-    print("vvvv")
 
-
-
-
-    user_obj = student.objects.filter(BATCH=batch_obj)
+    btass=batchassign.objects.filter(pk=fac_id.pk)
     res2 = []
+    print(btass)
+    for k in btass:
+        batch_obj=batch.objects.get(pk=k.BATCH.pk)
+        print("vvvv")
+        user_obj = student.objects.filter(BATCH=batch_obj)
 
+
+        for ii in user_obj:
+            ss = {'student_name': ii.student_name, 'email': ii.email, 'phone_no': ii.phone_no, 'course_name': ii.BATCH.COURSE.course_name}
+            res2.append(ss)
+        print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+
+def and_study_materials(request):
+    lid=request.POST['lid']
+    qq = faculty.objects.get(LOGIN_id=lid)
+    user_obj = studymaterial.objects.filter(FACULTY_id=qq.id).order_by('-id')
+    print(user_obj)
+    res2 = []
+    # qq=batch.objects.get(id=)
     for ii in user_obj:
-        ss = {'student_name': ii.student_name, 'email': ii.email, 'phone_no': ii.phone_no, 'course_name': ii.BATCH.COURSE.course_name}
+        ss = {'date': ii.date, 'title': ii.title, 'file': ii.file,'id': ii.pk}
+        res2.append(ss)
+    print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+def and_add_study_material(request):
+    print("jjj")
+
+    title=request.POST["title"]
+    ff=request.POST["file22"]
+    lid=request.POST["lid"]
+
+    batchs=request.POST["bid"]
+
+    qq=faculty.objects.get(LOGIN_id=lid)
+    rr=batch.objects.get(id=batchs)
+
+    # courseid=qq.BATCH.COURSE_id
+
+    print("nooo")
+
+    import base64
+
+    a = base64.b64decode(ff)
+    # img
+    fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + title + ".pdf", "wb")
+    fh.write(a)
+    fh.close()
+
+    path="/media/"+title+".pdf"
+
+    print("sss")
+    # image = open("/media/image.pdf", "wb")
+    # image.write(ff.decode('base64'))
+    # image.close()
+
+    # with open("/media/"+title+".pdf", "wb") as fh:
+    #     fh.write(base64.urlsafe_b64decode(ff))
+
+    print("qqq")
+    ss=studymaterial()
+    ss.title=title
+    ss.file=path
+    ss.COURSE_id=rr.COURSE.id
+
+    ss.FACULTY_id=qq.id
+    # ss.COURSE_id=
+    ss.date = datetime.datetime.now().date()
+    ss.save()
+
+
+    data = {"status": "ok"}
+    return JsonResponse(data)
+
+
+def faculty_del_material(request):
+    id= request.POST['id']
+    studymaterialobj= studymaterial.objects.get(pk=id)
+    studymaterialobj.delete()
+
+    return JsonResponse({'status':'ok'})
+
+def faculty_add_work(request):
+    lid=request.POST['lid']
+    batchid=request.POST['batchid']
+    descr=request.POST['descr']
+    fa=faculty.objects.get(LOGIN_id=lid)
+
+    ww=work()
+    ww.FACULTY=fa
+    ww.BATCH_id=batchid
+    ww.discrption=descr
+    ww.date=datetime.datetime.now().date()
+    ww.save()
+    return JsonResponse({'status': 'ok'})
+
+def faculty_del_work(request):
+    wid=request.POST['wid']
+    ww=work.objects.get(id=wid)
+    ww.delete()
+    return JsonResponse({'status': 'ok'})
+
+def faculty_view_work(request):
+    lid = request.POST['uid']
+    fa = faculty.objects.get(LOGIN_id=lid)
+    ww=work.objects.filter(FACULTY=fa)
+    res2 = []
+    for ii in ww:
+        ss = {'course': ii.BATCH.COURSE.course_name, 'batch': ii.BATCH.batch_name, 'descr': ii.discrption,
+              'id': ii.pk}
+        res2.append(ss)
+    print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+def faculty_update_work(request):
+    wid=request.POST['wid']
+    descr=request.POST['descr']
+    ww=work.objects.get(id=wid)
+    ww.discrption=descr
+    ww.save()
+    return JsonResponse({"status": "ok"})
+
+def newtem(request):
+    return render(request,"home_temp.html")
+
+
+
+def and_add_syllbus(request):
+    print("jjj")
+
+    title=request.POST["title"]
+    ff=request.POST["file22"]
+    lid=request.POST["lid"]
+
+
+    courseid=request.POST["cid"]
+
+    courseobj= course.objects.get(pk=courseid)
+    print("nooo")
+
+    import base64
+    a = base64.b64decode(ff)
+    # img
+    fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + title + ".pdf", "wb")
+    fh.write(a)
+    fh.close()
+    path="/media/"+title+".pdf"
+    print("sss")
+    # image = open("/media/image.pdf", "wb")
+    # image.write(ff.decode('base64'))
+    # image.close()
+
+    # with open("/media/"+title+".pdf", "wb") as fh:
+    #     fh.write(base64.urlsafe_b64decode(ff))
+    print("qqq")
+    ss=syllabus()
+    ss.title=title
+    ss.file=path
+    ss.COURSE_id=courseid
+    ss.save()
+    data = {"status": "ok"}
+    return JsonResponse(data)
+
+
+
+def stud_add_achievements(request):
+    print("jjj")
+
+    name=request.POST["name"]
+    ff=request.POST["file"]
+    lid=request.POST["lid"]
+    description=request.POST["description"]
+
+    ww=student.objects.get(LOGIN_id=lid)
+
+    import base64
+    a = base64.b64decode(ff)
+    # img
+    fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + name + ".pdf", "wb")
+    fh.write(a)
+    fh.close()
+    path="/media/"+name+".pdf"
+    print("sss")
+
+    print("qqq")
+    ss=archiement()
+    ss.name=name
+    ss.file=path
+    ss.STUDENT=ww
+    ss.discription=description
+    ss.date=datetime.datetime.now()
+    ss.save()
+    data = {"status": "ok"}
+    return JsonResponse(data)
+
+
+
+def faculty_del_sylabus(request):
+    wid=request.POST['wid']
+    ww=syllabus.objects.get(id=wid)
+    ww.delete()
+    return JsonResponse({'status': 'ok'})
+
+def faculty_update_sylabus(request):
+    wid=request.POST['sid']
+    title=request.POST['titl']
+    ff = request.POST["file22"]
+    ww=syllabus.objects.get(id=wid)
+    ww.title=title
+    if ff!="":
+        import base64
+        a = base64.b64decode(ff)
+        # img
+        fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + title + ".pdf", "wb")
+        fh.write(a)
+        fh.close()
+        path = "/media/" + title + ".pdf"
+        ww.file=path
+
+
+    ww.save()
+    return JsonResponse({"status": "ok"})
+
+
+def faculty_view_sylabus(request):
+    lid = request.POST['uid']
+    fa = batchassign.objects.filter(FACULTY=faculty.objects.get(LOGIN=login.objects.get(pk=lid)))
+    res2 = []
+    for k in fa:
+
+        ww=syllabus.objects.filter(COURSE=k.BATCH.COURSE)
+
+        for ii in ww:
+            ss = {'course': ii.COURSE.course_name, 'title': ii.title, 'file': ii.file,
+                  'id': ii.pk}
+            res2.append(ss)
+        print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+
+##########################################################################
+def ad_student_view_profile(request):
+
+    lid = request.POST['lid']
+
+    login_obj = login.objects.get(id=lid)
+
+    user_obj=student.objects.get(LOGIN=login_obj)
+
+    data = {"status": "ok", 'image':user_obj.image, 'name':user_obj.student_name, 'phonenumber':user_obj.phone_no,'email':user_obj.email,'house':user_obj.housename,'place':user_obj.place,'post':user_obj.post,'pin':user_obj.pin,'coursename':user_obj.BATCH.COURSE.course_name,'batchname':user_obj.BATCH.batch_name}
+    return JsonResponse(data)
+
+
+
+def and_edit_student_profile(request):
+
+    wid=request.POST['wid']
+    namee=request.POST['name']
+    phonn=request.POST['phonenumber']
+    housenamme=request.POST['housename']
+    place=request.POST['place']
+    proo=request.POST['prof']
+
+    obj = student.objects.get(LOGIN_id=wid)
+
+    obj.student_name = namee
+    obj.phone_no = phonn
+    obj.housename = housenamme
+    obj.place = place
+
+    # ww = student.objects.get(id=wid)
+    #
+    # ww.student_name = namee
+    # ww.phone_no = phonn
+    # ww.housename = housenamme
+    # ww.place = place
+
+
+    if proo != "":
+
+        import base64
+        # a = base64.b64decode(proo)
+
+        imgdata = base64.b64decode(proo)
+        import datetime
+
+
+
+        abc = "media/" + str(wid) + ".jpg"
+        print("jjjj22")
+
+        filename = 'C:/Users/MAJID PC/PycharmProjects/myapp/media/' + str(wid) + ".jpg"
+        fh = open(filename, "wb")
+
+
+        path = "/media/" + str(wid) + ".jpg"
+
+        fh.write(imgdata)
+        fh.close()
+        obj.image = path
+
+
+        # with open(filename, 'wb') as f:
+        # f.write(imgdata)
+
+
+        # ww.image=path
+
+
+
+    obj.save()
+    return JsonResponse({"status": "ok"})
+
+
+def and_student_view_stdy_materials(request):
+    bid=str(request.POST['batchid']).replace(",","")
+    # qq = student.objects.get(LOGIN_id=lid)
+    bat=batch.objects.get(pk=bid)
+    user_obj = studymaterial.objects.filter(COURSE=bat.COURSE)
+    print(user_obj)
+    res2 = []
+    # qq=batch.objects.get(id=)
+    for ii in user_obj:
+        ss = {'date': ii.date, 'title': ii.title, 'file': ii.file,'coursename': ii.COURSE.course_name}
+        # ss = {'date': ii.date, 'title': ii.title, 'file': ii.file,'id': ii.pk}
         res2.append(ss)
     print(res2)
     data = {"status": "ok", "users": res2}
     return JsonResponse(data)
 
 
+
+def student_view_sylabus(request):
+    bid = str(request.POST['batchid']).replace(",", "")
+
+    print(bid,"ooooooooooooooooooooooooooooooooooooooooooooooo")
+
+    btch= batch.objects.get(pk=bid)
+    courseobj= btch.COURSE
+
+
+    #
+    # fa = faculty.objects.get(LOGIN_id=lid)
+    # ww=syllabus.objects.filter(COURSE=fa.BATCH.COURSE)
+
+    user_obj = syllabus.objects.filter(COURSE=courseobj)
+
+    res2 = []
+    for ii in user_obj:
+        ss = {'course': ii.COURSE.course_name, 'title': ii.title, 'file': ii.file,
+              'id': ii.pk}
+        res2.append(ss)
+    print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+
+
+
+def student_view_work(request):
+    bid = str(request.POST['batchid']).replace(",","")
+    print(bid)
+    btch = batch.objects.get(pk=bid)
+    ww= work.objects.filter(BATCH=btch)
+    res2 = []
+    for ii in ww:
+        ss = {'course': ii.BATCH.COURSE.course_name, 'batch': ii.BATCH.batch_name, 'descr': ii.discrption,
+              'id': ii.pk}
+        res2.append(ss)
+    print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+def student_add_achivement(request):
+
+    
+    name = request.POST['textfield']
+    gender = request.POST['radiobutton']
+    email = request.POST['textfield2']
+    phonenumber = request.POST['textfield3']
+    qualification = request.POST['qualification']
+    experince = request.POST['experince']
+
+    image = request.FILES['file']
+    fs = FileSystemStorage()
+    sa = fs.save(image.name, image)
+    url = fs.url(sa)
+    print("hai")
+
+    housename = request.POST['textfield4']
+    place = request.POST['textfield5']
+    post = request.POST['textfield6']
+    pin = request.POST['textfield7']
+    # batch_id=request.POST['select']
+    password = random.randint(1000, 9999)
+    ll = login()
+    ll.username = email
+    ll.password = str(password)
+    ll.user_type = "faculty"
+    ll.save()
+
+    fa = faculty()
+    fa.facultyname = name
+    fa.gender = gender
+    fa.email = email
+
+    fa.phone_no = phonenumber
+    fa.qualifiction = qualification
+    fa.experience = experince
+    fa.image = url
+    fa.house_name = housename
+    fa.place = place
+    fa.post = post
+    fa.pin = pin
+    # print("ppppss=",batch_id)
+    # qq=batch.objects.get(pk=batch_id)
+    print("qsss")
+
+    fa.LOGIN = ll
+    print("qqq22")
+    # fa.BATCH = qq
+    fa.save()
+
+    return render(request, "admin/add_faculty.html")
+
+
+
+
+
+def studentviewstudents(request):
+
+    batch_id=str(request.POST['batchid']) .replace(",","")
+
+    allstudents=student.objects.filter(BATCH=batch.objects.get(pk=batch_id))
+
+    res=[]
+
+    if allstudents.exists():
+
+        for i in allstudents:
+
+            c={'id':i.pk,'student_name': i.student_name,'place': i.place,'pin': i.pin,'district':i.place,'contactno': i.phone_no, 'email':i.email,'photo':i.image,'gender':i.gender,'dob':i.dob }
+            res.append(c)
+        print(res,"kkkkkkkkkkkkkkkkkk")
+        return JsonResponse({'status':'ok', 'users': res })
+    else:
+        return JsonResponse({'status':'no'})
+
+
+def studentviewachievements(request):
+
+    lid= request.POST['uid']
+
+    allach=archiement.objects.filter(STUDENT__LOGIN_id=lid)
+
+    res=[]
+
+    if allach.exists():
+
+        for i in allach:
+
+            c={'id':i.pk,'date': i.date,'file': i.file,'name': i.name,'discription':i.discription,'status': i.status }
+            res.append(c)
+
+        return JsonResponse({'status':'ok', 'users': res })
+    else:
+        return JsonResponse({'status':'no'})
+
+
+
+
+
+
+
+
+
+
+
+def fac_viewassignedcourse(request):
+    flid= request.POST['uid']
+
+    print(flid,"aaaaaaaaaaaaaaaaaaaaaaaa")
+    facobj= faculty.objects.get(LOGIN= login.objects.get(pk=flid))
+    batchass= batchassign.objects.filter(FACULTY=facobj)
+    res=[]
+    if batchass.exists():
+        for i in batchass:
+            c={'cid': i.BATCH.COURSE.pk, 'cname': i.BATCH.COURSE.course_name}
+            res.append(c)
+        return JsonResponse({'status':'ok','users': res})
+    else:
+        return JsonResponse({'status':'no'})
+
+def fac_viewassignedbatches(request):
+    flid = request.POST['uid']
+    facobj = faculty.objects.get(LOGIN=login.objects.get(pk=flid))
+    batchass = batchassign.objects.filter(FACULTY=facobj)
+    res = []
+    if batchass.exists():
+        for i in batchass:
+            c = {'bid': i.BATCH.pk, 'bname': i.BATCH.batch_name}
+            res.append(c)
+        return JsonResponse({'status': 'ok', 'users': res})
+    else:
+        return JsonResponse({'status': 'no'})
+
+
+
+
+
+    alls=batchassign.objects.filter()
