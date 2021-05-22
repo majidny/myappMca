@@ -25,7 +25,7 @@ import java.util.Map;
 public class fc_new_batchass_lis extends AppCompatActivity {
     ListView listbassign;
 
-    String[] btchname,btchyear,btchmonth,course;
+    String[] btchname,btchyear,btchmonth,course,id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +57,7 @@ public class fc_new_batchass_lis extends AppCompatActivity {
                                 btchyear=new String[js.length()];
                                 btchmonth=new String[js.length()];
                                 course=new String[js.length()];
-//                                type=new String[js.length()];
-//                                discription=new String[js.length()];
-//                                image=new String[js.length()];
-//                                status=new String[js.length()];
-//
-//                                JSONArray js1= jsonObj.getJSONArray("rating");
-//                                rating=new String[js1.length()];
+                                id=new String[js.length()];
 
                                 for(int i=0;i<js.length();i++)
                                 {
@@ -72,28 +66,10 @@ public class fc_new_batchass_lis extends AppCompatActivity {
                                     btchyear[i]=u.getString("Batch_year");
                                     btchmonth[i]=u.getString("batch_month");
                                     course[i]=u.getString("course_name");
-
-//                                    type[i]=u.getString("type");
-//                                    discription[i]=u.getString("description");
-//                                    image[i]=u.getString("image");
-//                                    status[i]=u.getString("status");
-
-
+                                    id[i]=u.getString("id");
                                 }
-//                                for(int i=0;i<js1.length();i++)
-//                                {
-//                                    JSONObject u=js1.getJSONObject(i);
-//                                    rating[i]=u.getString("rating");
-//
-//                                }
-
-                                // ArrayAdapter<String> adpt=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,name);
-                                listbassign.setAdapter(new cust_batch_assign(getApplicationContext(),btchname,btchyear,btchmonth,course));
-                                // l1.setAdapter(new Custom(getApplicationContext(),gamecode,name,type,discription,image,status));
+                                listbassign.setAdapter(new cust_batch_assign(getApplicationContext(),btchname,btchyear,btchmonth,course,id));
                             }
-
-
-                            // }
                             else {
                                 Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
                             }

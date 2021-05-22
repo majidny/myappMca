@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class fc_view_faculties extends AppCompatActivity {
     ListView listfaculty;
-    String[] name,image,email,phone,housenme,place,quali,exp;
+    String[] name,image,email,phone,housenme,place,quali,exp,id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class fc_view_faculties extends AppCompatActivity {
                                 place=new String[js.length()];
                                 quali=new String[js.length()];
                                 exp=new String[js.length()];
+                                id=new String[js.length()];
 
 //                                type=new String[js.length()];
 //                                discription=new String[js.length()];
@@ -79,6 +80,7 @@ public class fc_view_faculties extends AppCompatActivity {
                                     place[i]=u.getString("place");
                                     quali[i]=u.getString("qualification");
                                     exp[i]=u.getString("experince");
+                                    id[i]=u.getString("id");
 
 
 //                                    type[i]=u.getString("type");
@@ -96,7 +98,7 @@ public class fc_view_faculties extends AppCompatActivity {
 //                                }
 
                                 // ArrayAdapter<String> adpt=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,name);
-                                listfaculty.setAdapter(new cust_view_faculty(getApplicationContext(),image,name,email,phone,housenme,place,quali,exp));
+                                listfaculty.setAdapter(new cust_view_faculty(getApplicationContext(),image,name,email,phone,housenme,place,quali,exp,id));
                                 // l1.setAdapter(new Custom(getApplicationContext(),gamecode,name,type,discription,image,status));
                             }
 

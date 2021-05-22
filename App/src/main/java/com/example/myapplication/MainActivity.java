@@ -13,6 +13,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText ed_ip;
     Button bt;
 
+
+
+    @Override
+    public void onBackPressed() {
+
+        Intent ins =new Intent(Intent.ACTION_MAIN);
+        ins.addCategory(Intent.CATEGORY_HOME);
+        ins.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(ins);
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         ed.commit();
-        Intent i=new  Intent(getApplicationContext(),Login.class);
+        Intent i=new  Intent(getApplicationContext(),publichome.class);
         startActivity(i);
 
     }

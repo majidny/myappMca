@@ -1,12 +1,14 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -15,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,25 +25,30 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class stud_view_studymaterial extends AppCompatActivity {
-    ListView sdy;
-    String[] date,title,file,id,cname;
+public class public_viewcourse extends AppCompatActivity {
+
+    ListView listwork;
+    String[] course_name,discription,duration,amount;
+    FloatingActionButton fab;
+
+    ListView lvs;
 
 
 
-
+    FloatingActionButton fs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stud_view_studymaterial);
-        sdy=(ListView)findViewById(R.id.liststtdy);
+        setContentView(R.layout.activity_publicviewcourse);
+
+        lvs=(ListView) findViewById(R.id.lvs);
+
+
 
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        final String maclis=sh.getString("mac_list","");
-//        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/and_student_view_stdy_materials/";
+        String url = "http://" + hu + ":8000/stock/publicviewcourse/";
 
 
 
@@ -57,35 +65,29 @@ public class stud_view_studymaterial extends AppCompatActivity {
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
                                 JSONArray js= jsonObj.getJSONArray("users");
-                                date=new String[js.length()];
-                                title=new String[js.length()];
-                                file=new String[js.length()];
-                                cname=new String[js.length()];
-//                                id=new String[js.length()];
+                                course_name=new String[js.length()];
+                                discription=new String[js.length()];
+                                duration=new String[js.length()];
+                                amount=new String[js.length()];
 
 
-//                                type=new String[js.length()];
-//                                discription=new String[js.length()];
-//                                image=new String[js.length()];
-//                                status=new String[js.length()];
-//
-//                                JSONArray js1= jsonObj.getJSONArray("rating");
-//                                rating=new String[js1.length()];
 
-                                for(int i=0;i<js.length();i++)
-                                {
-                                    JSONObject u=js.getJSONObject(i);
-                                    date[i]=u.getString("date");
-                                    title[i]=u.getString("title");
-                                    file[i]=u.getString("file");
-                                    cname[i]=u.getString("coursename");
+                                for(int i=0;i<js.length();i++) {
+                                    JSONObject u = js.getJSONObject(i);
+                                    course_name[i] = u.getString("course_name");
+                                    discription[i] = u.getString("discription");
+                                    duration[i] = u.getString("duration");
+                                    amount[i] = u.getString("amount");
 
                                 }
 
+                                lvs.setAdapter(new cust_pub_course(getApplicationContext(),course_name,discription,duration,amount ));
 
-                               sdy.setAdapter(new cust_stu_studymaterials(getApplicationContext(),date,title,file,id,cname));
                             }
-                          else {
+
+
+                            // }
+                            else {
                                 Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
                             }
 
@@ -107,8 +109,8 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 Map<String, String> params = new HashMap<String, String>();
 
-                String id=sh.getString("batch_id","");
-                params.put("batchid",id);
+                String id=sh.getString("lid","");
+                params.put("uid",id);
 //                params.put("mac",maclis);
 
                 return params;

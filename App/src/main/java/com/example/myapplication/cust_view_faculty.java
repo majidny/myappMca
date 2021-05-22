@@ -18,10 +18,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class cust_view_faculty extends BaseAdapter {
-    String[]Image,name,email,phonenumber,housname,place,quali,expp;
+    String[]Image,name,email,phonenumber,housname,place,quali,expp,id;
     private Context context;
 
-    public cust_view_faculty(Context appcontext,String[]Image,String[]name,String[]email,String[]phonenumber,String[]housname,String[]place,String[]quali,String[]expp )
+    public cust_view_faculty(Context appcontext,String[]Image,String[]name,String[]email,String[]phonenumber,String[]housname,String[]place,String[]quali,String[]expp,String [] id )
     {
         this.context=appcontext;
 
@@ -35,6 +35,7 @@ public class cust_view_faculty extends BaseAdapter {
 //        this.pin=pin;
         this.quali=quali;
         this.expp=expp;
+        this.id=id;
 
 
 
@@ -123,6 +124,30 @@ public class cust_view_faculty extends BaseAdapter {
 
                 ed.commit();
                 Intent i=new Intent(context,fc_view_faculty_more.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+
+
+
+
+            }
+        });
+  Button bchat=(Button) gridView.findViewById(R.id.button28);
+
+        bchat.setTag(id[i]);
+        bchat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String kk=v.getTag().toString();
+
+
+                SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(context);
+
+
+                SharedPreferences.Editor ed=sh.edit();
+                ed.putString("facid", kk);
+                ed.commit();
+                Intent i=new Intent(context,TestStudentchatwithfaculty.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
 

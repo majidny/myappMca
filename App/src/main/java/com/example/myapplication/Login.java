@@ -33,15 +33,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
 
     @Override
+    public void onBackPressed() {
+
+        Intent ins =new Intent(getApplicationContext(),publichome.class);
+        startActivity(ins);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ed1=(EditText)findViewById(R.id.editText2);
         ed2=(EditText)findViewById(R.id.editText4);
-//        ed1.setText("abilash@gmail.com");
-//        ed2.setText("1");
-        ed1.setText("rohan@gmail.com");
-        ed2.setText("92226");
+        ed1.setText("nikhil@gmail.com");
+        ed2.setText("5702");
+//        ed1.setText("rohan@gmail.com");
+//        ed2.setText("92226");
         btn=(Button)findViewById(R.id.button);
         btn.setOnClickListener(this);
 
@@ -101,11 +108,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                             String cname = jsonObj.getString("cname");
                                             SharedPreferences.Editor ed1 = sh.edit();
                                             ed1.putString("batch_id", batch_id);
-
-
-
-
-
                                             ed1.putString("bname", bname);
                                             ed1.putString("cname", cname);
                                             ed1.commit();
@@ -121,7 +123,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                             SharedPreferences.Editor ed1 = sh.edit();
                                             ed1.putString("lid", lid);
                                             ed1.putString("batch_id", batch_id);
-
 
                                             ed1.commit();
                                             Intent ij = new Intent(getApplicationContext(), student_home.class);

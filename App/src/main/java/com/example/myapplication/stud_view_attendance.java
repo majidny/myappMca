@@ -1,12 +1,12 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -22,25 +22,21 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class stud_view_studymaterial extends AppCompatActivity {
-    ListView sdy;
-    String[] date,title,file,id,cname;
+public class stud_view_attendance extends AppCompatActivity {
 
-
-
-
+    ListView listwork;
+    String[] date,status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stud_view_studymaterial);
-        sdy=(ListView)findViewById(R.id.liststtdy);
+        setContentView(R.layout.stud_att);
+
+        listwork=(ListView)findViewById(R.id.lwork);
 
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        final String maclis=sh.getString("mac_list","");
-//        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/and_student_view_stdy_materials/";
+        String url = "http://" + hu + ":8000/stock/facviewstudentattendance/";
 
 
 
@@ -58,34 +54,17 @@ public class stud_view_studymaterial extends AppCompatActivity {
 
                                 JSONArray js= jsonObj.getJSONArray("users");
                                 date=new String[js.length()];
-                                title=new String[js.length()];
-                                file=new String[js.length()];
-                                cname=new String[js.length()];
-//                                id=new String[js.length()];
+                                status=new String[js.length()];
 
-
-//                                type=new String[js.length()];
-//                                discription=new String[js.length()];
-//                                image=new String[js.length()];
-//                                status=new String[js.length()];
-//
-//                                JSONArray js1= jsonObj.getJSONArray("rating");
-//                                rating=new String[js1.length()];
-
-                                for(int i=0;i<js.length();i++)
-                                {
-                                    JSONObject u=js.getJSONObject(i);
-                                    date[i]=u.getString("date");
-                                    title[i]=u.getString("title");
-                                    file[i]=u.getString("file");
-                                    cname[i]=u.getString("coursename");
+                                for(int i=0;i<js.length();i++) {
+                                    JSONObject u = js.getJSONObject(i);
+                                    date[i] = u.getString("date");
+                                    status[i] = u.getString("status");
 
                                 }
-
-
-                               sdy.setAdapter(new cust_stu_studymaterials(getApplicationContext(),date,title,file,id,cname));
+                             listwork.setAdapter(new cust_attendance(getApplicationContext(),date,status));
                             }
-                          else {
+                            else {
                                 Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
                             }
 
@@ -107,9 +86,9 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 Map<String, String> params = new HashMap<String, String>();
 
-                String id=sh.getString("batch_id","");
-                params.put("batchid",id);
-//                params.put("mac",maclis);
+                String id=sh.getString("studentid","");
+                params.put("sid",id);
+
 
                 return params;
             }
@@ -122,10 +101,5 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(postRequest);
-
-
-
-
-
     }
 }

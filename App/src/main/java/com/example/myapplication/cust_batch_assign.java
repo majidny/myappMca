@@ -1,20 +1,24 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 
 public class cust_batch_assign extends BaseAdapter {
 
-    String[] btchname,btchyear,btchmonth,course;
+    String[] btchname,btchyear,btchmonth,course,bid;
     private Context context;
 
-    public cust_batch_assign(Context appcontext,String[]btchname,String[]btchyear,String[]btchmonth,String[]course)
+    public cust_batch_assign(Context appcontext,String[]btchname,String[]btchyear,String[]btchmonth,String[]course,String [] bid)
     {
         this.context=appcontext;
 
@@ -22,6 +26,7 @@ public class cust_batch_assign extends BaseAdapter {
         this.btchyear=btchyear;
         this.btchmonth=btchmonth;
         this.course=course;
+        this.bid=bid;
 
     }
 
@@ -62,6 +67,46 @@ public class cust_batch_assign extends BaseAdapter {
         TextView tv2=(TextView)gridView.findViewById(R.id.textView33);
         TextView tv3=(TextView)gridView.findViewById(R.id.textView35);
         TextView tv4=(TextView)gridView.findViewById(R.id.textView37);
+
+
+        Button btattendance=(Button) gridView.findViewById(R.id.button29);
+        Button btstudents=(Button) gridView.findViewById(R.id.button30);
+
+        btattendance.setTag(bid[i]);
+        btattendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor ed=sh.edit();
+                ed.putString("selbid", v.getTag().toString());
+                ed.commit();
+
+                Intent ins= new Intent(context,fc_add_attendance.class);
+                ins.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(ins);
+
+            }
+        });
+
+
+        btstudents.setTag(bid[i]);
+        btstudents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor ed=sh.edit();
+                ed.putString("selbid", v.getTag().toString());
+                ed.commit();
+
+                Intent ins= new Intent(context,fc_view_students.class);
+                ins.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(ins);
+
+            }
+        });
+
 
 
 

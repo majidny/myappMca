@@ -139,9 +139,41 @@ public class student_home extends AppCompatActivity
             startActivity(i);
 
 
+        }  else if (id == R.id.view_att) {
+            Intent i=new Intent(getApplicationContext(),View_attendance.class);
+            startActivity(i);
+
+
         }
         else if (id == R.id.view_ach) {
             Intent i=new Intent(getApplicationContext(),stud_view_achivement.class);
+            startActivity(i);
+
+
+        }
+
+        else if (id == R.id.nav_fac) {
+            Intent i=new Intent(getApplicationContext(),public_view_faculties.class);
+            startActivity(i);
+
+
+        }
+
+        else if (id == R.id.view_vacc) {
+            Intent i=new Intent(getApplicationContext(),Studentviewvaccancies.class);
+            startActivity(i);
+
+
+        }
+        else if (id == R.id.view_vacc_applied) {
+            Intent i=new Intent(getApplicationContext(),Studentviewvaccancies_applied.class);
+            startActivity(i);
+
+
+        }
+
+        else if (id == R.id.review) {
+            Intent i=new Intent(getApplicationContext(),Sentreviews.class);
             startActivity(i);
 
 

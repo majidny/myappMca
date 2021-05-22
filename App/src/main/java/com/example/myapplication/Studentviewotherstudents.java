@@ -25,7 +25,6 @@ import java.util.Map;
 public class Studentviewotherstudents extends AppCompatActivity {
 
 
-
     ListView lvs;
     String [] id,student_name,place,district,pin,contactno,email,photo,gender,dob;
 

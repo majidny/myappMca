@@ -1,11 +1,18 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.SparseBooleanArray;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -21,8 +28,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_view_students extends AppCompatActivity {
+public class fc_add_attendance extends AppCompatActivity {
     ListView liststud;
+    Button bts;
     String[] name,email,phonenumber,coursename,id;
 
 
@@ -31,8 +39,17 @@ public class fc_view_students extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_view_students);
+        setContentView(R.layout.activity_fc_addattendance_students);
         liststud=(ListView)findViewById(R.id.listst);
+        bts=(Button) findViewById(R.id.button31);
+
+
+        bts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addattenance();
+            }
+        });
 
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        final String maclis=sh.getString("mac_list","");
@@ -72,7 +89,21 @@ public class fc_view_students extends AppCompatActivity {
                                     coursename[i]=u.getString("course_name");
                                     id[i]=u.getString("id");
                                 }
-                                liststud.setAdapter(new cust_view_students(getApplicationContext(),name,email,phonenumber,coursename,id));
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_multiple_choice,name );
+                                liststud.setAdapter(adapter);
+//                                lv.ChoiceMode = ChoiceMode.Multiple;
+
+                                liststud.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+
+
+
+
+
+
+
+
+
+//                                liststud.setAdapter(new cust_view_students(getApplicationContext(),name,email,phonenumber,coursename,id));
                             }
 
 
@@ -116,4 +147,81 @@ public class fc_view_students extends AppCompatActivity {
         requestQueue.add(postRequest);
 
     }
+String ids="";
+    public void addattenance()
+    {
+        int len = liststud.getCount();
+
+
+        SparseBooleanArray checked = liststud.getCheckedItemPositions();
+        for (int i = 0; i < len; i++)
+            if (checked.get(i)) {
+                String item = id[i];
+//                Toast.makeText(getApplicationContext(),item,Toast.LENGTH_LONG).show();
+                /* do whatever you want with the checked item */
+
+
+                ids= ids+ item+",";
+            }
+
+
+        SharedPreferences sh=PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String hu = sh.getString("ip", "");
+        String url = "http://" + hu + ":8000/stock/fac_attendanceadd/";
+        //  Toast.makeText(getApplicationContext(),"tt="+url,Toast.LENGTH_LONG).show();
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //
+                        // response
+                        try {
+                            JSONObject jsonObj = new JSONObject(response);
+                            String sucs = jsonObj.getString("status");
+                            if (sucs.equalsIgnoreCase("ok")) {
+                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+//                                startActivity(new Intent(getApplicationContext(),Tutor.class));
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error" + e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Toast.makeText(getApplicationContext(), "eeeee" + error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("studid", ids);
+                params.put("bid", sh.getString("selbid",""));
+//                params.put("tslot",sp3.getSelectedItem().toString());
+//                params.put("tutid",sh.getString("userid",""));
+
+
+                return params;
+            }
+        };
+
+        int MY_SOCKET_TIMEOUT_MS = 100000;
+
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(postRequest);
+    }
+
+
+
+
+
 }

@@ -1,12 +1,12 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -22,25 +22,20 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class stud_view_studymaterial extends AppCompatActivity {
-    ListView sdy;
-    String[] date,title,file,id,cname;
-
-
-
-
+public class fc_view_salary extends AppCompatActivity {
+    ListView listfaculty;
+    String[]  year,month,salary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stud_view_studymaterial);
-        sdy=(ListView)findViewById(R.id.liststtdy);
-
+        setContentView(R.layout.activity_fc_view_faculties);
+        listfaculty=(ListView)findViewById(R.id.list2);
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        final String maclis=sh.getString("mac_list","");
 //        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/and_student_view_stdy_materials/";
+        String url = "http://" + hu + ":8000/stock/facviewsalary/";
 
 
 
@@ -56,36 +51,36 @@ public class stud_view_studymaterial extends AppCompatActivity {
                             JSONObject jsonObj = new JSONObject(response);
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
-                                JSONArray js= jsonObj.getJSONArray("users");
-                                date=new String[js.length()];
-                                title=new String[js.length()];
-                                file=new String[js.length()];
-                                cname=new String[js.length()];
-//                                id=new String[js.length()];
+                                JSONArray js= jsonObj.getJSONArray("res");
+                                year=new String[js.length()];
+                                month=new String[js.length()];
+                                salary=new String[js.length()];
 
 
-//                                type=new String[js.length()];
-//                                discription=new String[js.length()];
-//                                image=new String[js.length()];
-//                                status=new String[js.length()];
-//
-//                                JSONArray js1= jsonObj.getJSONArray("rating");
-//                                rating=new String[js1.length()];
 
                                 for(int i=0;i<js.length();i++)
                                 {
                                     JSONObject u=js.getJSONObject(i);
-                                    date[i]=u.getString("date");
-                                    title[i]=u.getString("title");
-                                    file[i]=u.getString("file");
-                                    cname[i]=u.getString("coursename");
+                                    year[i]=u.getString("year");
+                                    month[i]=u.getString("month");
+                                    salary[i]=u.getString("salary");
 
                                 }
+//                                for(int i=0;i<js1.length();i++)
+//                                {
+//                                    JSONObject u=js1.getJSONObject(i);
+//                                    rating[i]=u.getString("rating");
+//
+//                                }
 
-
-                               sdy.setAdapter(new cust_stu_studymaterials(getApplicationContext(),date,title,file,id,cname));
+                                // ArrayAdapter<String> adpt=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,name);
+                                listfaculty.setAdapter(new cust_salary(getApplicationContext(),year,month,salary));
+                                // l1.setAdapter(new Custom(getApplicationContext(),gamecode,name,type,discription,image,status));
                             }
-                          else {
+
+
+                            // }
+                            else {
                                 Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
                             }
 
@@ -107,8 +102,8 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 Map<String, String> params = new HashMap<String, String>();
 
-                String id=sh.getString("batch_id","");
-                params.put("batchid",id);
+                String id=sh.getString("lid","");
+                params.put("userid",id);
 //                params.put("mac",maclis);
 
                 return params;
@@ -122,9 +117,6 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(postRequest);
-
-
-
 
 
     }

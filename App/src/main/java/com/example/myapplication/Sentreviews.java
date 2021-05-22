@@ -1,16 +1,16 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -25,35 +25,50 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fc_edit_work extends AppCompatActivity implements View.OnClickListener {
+public class Sentreviews extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     TextView tv_batch, tv_course;
-
-    EditText ed_work;
+    EditText edname,edphone,edemail,edenquiry;
     Button btn;
+
+    int pos=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fc_edit_work);
+        setContentView(R.layout.activity_sentreview);
 
-        ed_work=(EditText) findViewById(R.id.editText5);
+
+
+
+
+
+        edname=(EditText) findViewById(R.id.editText16);
+
+
+
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        ed_work.setText(sh.getString("descr",""));
-        btn=(Button)findViewById(R.id.button8);
+        btn=(Button)findViewById(R.id.button33);
         btn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        final String work=ed_work.getText().toString();
-        if(work.length()==0){
-            ed_work.setError("Missing");
-        }else{
+
+        final String enquiry=edname.getText().toString();
+
+
+       if(enquiry.length()==0){
+            edname.setError("Missing");
+        }
+
+
+        else{
             SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
             String hu = sh.getString("ip", "");
-            String url = "http://" + hu + ":8000/stock/faculty_update_work/";
+            String url = "http://" + hu + ":8000/stock/senreviews/";
             //  Toast.makeText(getApplicationContext(),"tt="+url,Toast.LENGTH_LONG).show();
 
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -67,12 +82,11 @@ public class fc_edit_work extends AppCompatActivity implements View.OnClickListe
                             try {
                                 JSONObject jsonObj = new JSONObject(response);
                                 if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
-                                    Toast.makeText(getApplicationContext(), "Work Updated", Toast.LENGTH_SHORT).show();
-                                    Intent ij = new Intent(getApplicationContext(), fc_view_work.class);
-                                    startActivity(ij);
+                                    Toast.makeText(getApplicationContext(), "Successfully sent", Toast.LENGTH_SHORT).show();
+
                                 }
                                 else{
-                                    Toast.makeText(getApplicationContext(), "Invalid details", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Failed to sent", Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -101,10 +115,9 @@ public class fc_edit_work extends AppCompatActivity implements View.OnClickListe
                     Map<String, String> params = new HashMap<String, String>();
 
 //                String id=sh.getString("uid","");
-                    params.put("wid", sh.getString("wid",""));
-                    params.put("descr",work);
+                    params.put("review", enquiry);
+                    params.put("sid", sh.getString("lid",""));
 
-//                params.put("mac",maclis);
 
                     return params;
                 }
@@ -119,6 +132,15 @@ public class fc_edit_work extends AppCompatActivity implements View.OnClickListe
             requestQueue.add(postRequest);
         }
 
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        pos=position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

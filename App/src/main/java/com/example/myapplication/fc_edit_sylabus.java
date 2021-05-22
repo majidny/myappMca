@@ -52,14 +52,14 @@ public class fc_edit_sylabus extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fc_edit_sylabus);
-        coursename=(TextView) findViewById(R.id.textView76);
+
         titl=(EditText) findViewById(R.id.editText6);
         choose_btn=(Button)findViewById(R.id.button10);
         add_btn=(Button)findViewById(R.id.button13);
         tv=(TextView) findViewById(R.id.textView95);
 
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        coursename.setText(sh.getString("cname",""));
+
         titl.setText(sh.getString("titl",""));
         choose_btn=(Button)findViewById(R.id.button10);
         add_btn=(Button)findViewById(R.id.button13);
@@ -227,3 +227,4 @@ public class fc_edit_sylabus extends AppCompatActivity implements View.OnClickLi
         }
     }
 }
+

@@ -98,8 +98,6 @@ public class cust_user_view_students extends BaseAdapter {
 
         String url="http://" + ip + ":8000"+photo[i];
 
-        Toast.makeText(context,url,Toast.LENGTH_LONG).show();
-
 
 
         Picasso.with(context).load(url). into(img);

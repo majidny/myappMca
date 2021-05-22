@@ -166,6 +166,12 @@ public class stud_add_achvement extends AppCompatActivity implements View.OnClic
                                 JSONObject jsonObj = new JSONObject(response);
                                 if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
                                     Toast.makeText(getApplicationContext(), "Successfully added", Toast.LENGTH_SHORT).show();
+
+
+
+                                    Intent ins= new Intent(getApplicationContext(),student_home.class);
+
+
                                 }
                                 else {
 

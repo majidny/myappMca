@@ -106,11 +106,8 @@ public class Home extends AppCompatActivity
 
 
 
-        }else if (id == R.id.view_std) {
-            Intent i=new Intent(getApplicationContext(),fc_view_students.class);
-            startActivity(i);
-
-        } else if (id == R.id.view_cour) {
+        }
+        else if (id == R.id.view_cour) {
             Intent i=new Intent(getApplicationContext(),fc_view_course.class);
             startActivity(i);
 
@@ -123,8 +120,15 @@ public class Home extends AppCompatActivity
             startActivity(i);
 
 
-        }else if (id == R.id.nav_lgout) {
+        }
+        else if (id == R.id.nav_lgout) {
             Intent i=new Intent(getApplicationContext(),Login.class);
+            startActivity(i);
+
+
+        }
+        else if (id == R.id.salary) {
+            Intent i=new Intent(getApplicationContext(),fc_view_salary.class);
             startActivity(i);
 
 

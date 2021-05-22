@@ -1,12 +1,12 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -22,25 +22,20 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class stud_view_studymaterial extends AppCompatActivity {
-    ListView sdy;
-    String[] date,title,file,id,cname;
-
-
-
-
+public class Studentviewvaccancies_applied extends AppCompatActivity {
+    ListView listfaculty;
+    String[] date,title,discription,file,lastdate,id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stud_view_studymaterial);
-        sdy=(ListView)findViewById(R.id.liststtdy);
-
+        setContentView(R.layout.activity_studentviewvaccancies);
+        listfaculty=(ListView)findViewById(R.id.list2);
         SharedPreferences sh= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        final String maclis=sh.getString("mac_list","");
 //        String uid=sh.getString("uid","");
         String hu = sh.getString("ip", "");
-        String url = "http://" + hu + ":8000/stock/and_student_view_stdy_materials/";
+        String url = "http://" + hu + ":8000/stock/studentviewappliedlist/";
 
 
 
@@ -56,36 +51,33 @@ public class stud_view_studymaterial extends AppCompatActivity {
                             JSONObject jsonObj = new JSONObject(response);
                             if (jsonObj.getString("status").equalsIgnoreCase("ok")) {
 
-                                JSONArray js= jsonObj.getJSONArray("users");
+                                JSONArray js= jsonObj.getJSONArray("data");
+
                                 date=new String[js.length()];
                                 title=new String[js.length()];
+                                discription=new String[js.length()];
                                 file=new String[js.length()];
-                                cname=new String[js.length()];
-//                                id=new String[js.length()];
-
-
-//                                type=new String[js.length()];
-//                                discription=new String[js.length()];
-//                                image=new String[js.length()];
-//                                status=new String[js.length()];
-//
-//                                JSONArray js1= jsonObj.getJSONArray("rating");
-//                                rating=new String[js1.length()];
+                                lastdate=new String[js.length()];;
+                                id=new String[js.length()];;
 
                                 for(int i=0;i<js.length();i++)
                                 {
                                     JSONObject u=js.getJSONObject(i);
                                     date[i]=u.getString("date");
                                     title[i]=u.getString("title");
+                                    discription[i]=u.getString("discription");
                                     file[i]=u.getString("file");
-                                    cname[i]=u.getString("coursename");
+                                    lastdate[i]=u.getString("lastdate");
+                                    id[i]=u.getString("id");
 
                                 }
+                                listfaculty.setAdapter(new cust_student_viewcarrier_Applied(getApplicationContext(),date,title,discription,file,lastdate,id));
+
+                                 }
 
 
-                               sdy.setAdapter(new cust_stu_studymaterials(getApplicationContext(),date,title,file,id,cname));
-                            }
-                          else {
+                            // }
+                            else {
                                 Toast.makeText(getApplicationContext(), "Not found", Toast.LENGTH_LONG).show();
                             }
 
@@ -107,8 +99,9 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 Map<String, String> params = new HashMap<String, String>();
 
-                String id=sh.getString("batch_id","");
-                params.put("batchid",id);
+
+                String id=sh.getString("lid","");
+                params.put("uid",id);
 //                params.put("mac",maclis);
 
                 return params;
@@ -122,9 +115,6 @@ public class stud_view_studymaterial extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(postRequest);
-
-
-
 
 
     }

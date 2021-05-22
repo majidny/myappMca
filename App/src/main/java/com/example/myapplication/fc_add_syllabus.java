@@ -140,7 +140,7 @@ public class fc_add_syllabus extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fc_add_syllabus);
-        coursename=(TextView) findViewById(R.id.textView76);
+//        coursename=(TextView) findViewById(R.id.textView76);
         titl=(EditText) findViewById(R.id.editText6);
         choose_btn=(Button)findViewById(R.id.button10);
         add_btn=(Button)findViewById(R.id.button13);
