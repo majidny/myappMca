@@ -32,7 +32,7 @@
 
 
                         <li class="sidebar-item active ">
-                            <a href="/stock/abc" class='sidebar-link'>
+                            <a href="/stock/admin_hom" class='sidebar-link'>
                                 <i data-feather="home" width="20"></i>
                                 <span>HOME</span>
                             </a>
@@ -88,6 +88,15 @@
 
                         </li>
 
+                        <li class="sidebar-item  ">
+                            <a href="/stock/admin_batch_assignn/" class='sidebar-link'>
+                                <i data-feather="layout" width="20"></i>
+                                <span>BATCH ASSIGN </span>
+                            </a>
+
+                        </li>
+
+
                         <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i data-feather="triangle" width="20"></i>
@@ -127,11 +136,26 @@
                                 <span>SALARY</span>
                             </a>
                             <ul class="submenu ">
-                                <li>
-                                    <a href="/stock/admin_add_salary/">ADD</a>
-                                </li>
+
                                 <li>
                                     <a href="/stock/admin_view_salary/">VIEW</a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i data-feather="triangle" width="20"></i>
+                                <span>ATTENDANCE</span>
+                            </a>
+                            <ul class="submenu ">
+
+                                <li>
+                                    <a href="/stock/admin_add_faculty_attendence/">ADD</a>
+                                </li>
+                                 <li>
+                                    <a href="/stock/admin_view_attendence/">VIEW</a>
                                 </li>
                             </ul>
 
@@ -151,7 +175,7 @@
 
 
 
-                        <li class='sidebar-title'>Forms &amp; Tables</li>
+
 
 
 
@@ -184,9 +208,18 @@
 
 
                         <li class="sidebar-item  ">
-                            <a href="/stock/view_enquery/" class='sidebar-link'>
+                            <a href="/stock/admin_view_enquery/" class='sidebar-link'>
                                 <i data-feather="layout" width="20"></i>
                                 <span>ENQUIRY </span>
+                            </a>
+                        </li>
+
+
+
+                        <li class="sidebar-item  ">
+                            <a href="/stock/" class='sidebar-link'>
+                                <i data-feather="layout" width="20"></i>
+                                <span>LOGOUT </span>
                             </a>
                         </li>
 
@@ -243,7 +276,6 @@
                                 <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
                                 <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
                             </div>
                         </li>
                         <li class="dropdown">
@@ -268,17 +300,18 @@
 
             <div class="main-content container-fluid">
                 <div class="page-title">
-                    <h3>Dashboard</h3>
-                    <p class="text-subtitle text-muted">A good dashboard to display your statistics</p>
+{#                    <h3>Dashboard</h3>#}
+                    <p class="text-subtitle text-muted"></p>
                 </div>
                 <section class="section">
 
                     <div class="row mb-4">
                         <div class="col-md-12">
                             <div class="card">
+
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-12 col-12">
+                                        <div class="col-lg-12">
 
                                             {% block body %}
                                             {% endblock %}
