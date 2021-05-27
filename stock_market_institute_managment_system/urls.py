@@ -9,7 +9,7 @@ urlpatterns=[
 
 
     path('admin_hom/',views.admin_home),
-    path('abc/',views.abc),
+    path('abc/',views.abcc),
 
 
 
@@ -112,6 +112,7 @@ urlpatterns=[
     path('ad_view_faculties/',views.ad_view_faculties),
 
     path('ad_view_assigned_batches/',views.ad_view_assigned_batches),
+
     path('ad_view_students/',views.ad_view_students),
     path('and_study_materials/',views.and_study_materials),
     path('and_add_study_material/',views.and_add_study_material),
@@ -126,6 +127,55 @@ urlpatterns=[
     path('faculty_del_sylabus/',views.faculty_del_sylabus),
     path('faculty_update_sylabus/',views.faculty_update_sylabus),
     path('faculty_view_sylabus/',views.faculty_view_sylabus),
+
+    path('admin_batch_assignn/',views.admin_batch_assignn),
+
+
+
+    path('ad_student_view_profile/',views.ad_student_view_profile),
+
+
+    path('and_edit_student_profile/',views.and_edit_student_profile),
+    path('and_student_view_stdy_materials/',views.and_student_view_stdy_materials),
+    path('student_view_sylabus/',views.student_view_sylabus),
+
+
+    path('student_view_work/',views.student_view_work),
+    path('studentviewstudents/',views.studentviewstudents),
+    path('stud_add_achievements/',views.stud_add_achievements),
+    path('studentviewachievements/',views.studentviewachievements),
+    path('fac_viewassignedcourse/',views.fac_viewassignedcourse),
+    path('fac_viewassignedbatches/',views.fac_viewassignedbatches),
+
+    path('publicviewcourse/',views.publicviewcourse),
+    path('publicqnquiryadd/',views.publicqnquiryadd),
+    path('student_view_faculties/',views.student_view_faculties),
+    path('studentviewcarriers/',views.studentviewcarriers),
+    path('applyforvaccancy/',views.applyforvaccancy),
+    path('studentviewappliedlist/',views.studentviewappliedlist),
+    path('and_studentchatinsert/',views.and_studentchatinsert),
+    path('studentviewchat/',views.studentviewchat),
+    path('and_facchatinsert/',views.and_facchatinsert),
+    path('facviewchat/',views.facviewchat),
+    path('fac_attendanceadd/',views.fac_attendanceadd),
+    path('facviewstudentattendance/',views.facviewstudentattendance),
+    path('publicviewachievements/',views.publicviewachievements),
+    path('senreviews/',views.senreviews),
+    path('facviewsalary/',views.facviewsalary),
+    path('studentattendance/',views.studentattendance),
+
+    path('admin_view_achievement_search/',views.admin_view_achievement_search),
+
+
+    path('admin_search_salary/',views.admin_search_salary),
+    path('and_edit_faculty_profile/',views.and_edit_faculty_profile),
+
+
+
+
+
+
+
 
 
 

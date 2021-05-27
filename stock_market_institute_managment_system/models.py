@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 # Create your models here.
@@ -5,15 +6,19 @@ from django.db import models
 class login(models.Model):
     username=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
-    user_type=models.CharField(max_length=100)
+    user_typee=models.CharField(max_length=100)
     class Meta:
         db_table='login'
+
 
 
 class course(models.Model):
     course_name=models.CharField(max_length=100)
     discription=models.CharField(max_length=100)
     duration=models.CharField(max_length=100)
+
+    file = models.CharField(max_length=100, default="na")
+
     amount=models.CharField(max_length=100)
 
     class Meta:
@@ -34,12 +39,14 @@ class faculty(models.Model):
     gender=models.CharField(max_length=100, default="male")
     email=models.CharField(max_length=100)
     phone_no=models.CharField(max_length=100)
-    image=models.FileField(max_length=200)
+    experience=models.CharField(max_length=100, default="na")
+    qualifiction=models.CharField(max_length=100, default="na")
+    image=models.CharField(max_length=200)
     house_name=models.CharField(max_length=100)
     place=models.CharField(max_length=100)
     post=models.CharField(max_length=100)
     pin=models.CharField(max_length=100)
-    BATCH=models.ForeignKey(batch,on_delete=models.CASCADE)
+
     class Meta:
         db_table='faculty'
 
@@ -57,7 +64,7 @@ class student(models.Model):
     BATCH = models.ForeignKey(batch, on_delete=models.CASCADE)
     dob=models.CharField(max_length=100)
     gender=models.CharField(max_length=100)
-    image=models.FileField(max_length=100)
+    image=models.CharField(max_length=100)
     class Meta:
         db_table='student'
 
@@ -72,6 +79,9 @@ class enquiry(models.Model):
     class Meta:
         db_table = 'enquiry'
 
+
+
+
 class career(models.Model):
     date=models.CharField(max_length=100)
     title=models.CharField(max_length=100)
@@ -85,7 +95,9 @@ class career(models.Model):
 class archiement(models.Model):
     date=models.CharField(max_length=100)
     STUDENT= models.ForeignKey(student, on_delete=models.CASCADE)
-    file=models.FileField(max_length=100)
+
+    file=models.CharField(max_length=100)
+    name=models.CharField(max_length=100,default="na")
     discription=models.CharField(max_length=100)
     status=models.CharField(max_length=100)
 
@@ -103,8 +115,8 @@ class review(models.Model):
 
 class studymaterial(models.Model):
     title=models.CharField(max_length=100)
-    file=models.FileField(max_length=100)
-    date=models.FileField(max_length=100)
+    file=models.CharField(max_length=200)
+    date=models.DateField(max_length=100)
     COURSE=models.ForeignKey(course,on_delete=models.CASCADE)
     FACULTY=models.ForeignKey(faculty,on_delete=models.CASCADE)
     class Meta:
@@ -120,7 +132,7 @@ class chat(models.Model):
          db_table = 'chat'
 
 class attendence(models.Model):
-    date=models.CharField(max_length=100)
+    date=models.DateField(max_length=100)
     STUDENT=models.ForeignKey(student,on_delete=models.CASCADE)
     status=models.CharField(max_length=100)
 
@@ -141,7 +153,7 @@ class syllabus(models.Model):
 
     COURSE=models.ForeignKey(course,on_delete=models.CASCADE)
     title=models.CharField(max_length=100)
-    file=models.FileField(max_length=100)
+    file=models.CharField(max_length=200)
 
     class Meta:
          db_table = 'syllabus'
@@ -168,16 +180,27 @@ class salary(models.Model):
 
 
     salary = models.CharField(max_length=100)
+    month = models.CharField(max_length=100)
+    year = models.CharField(max_length=100)
     FACULTY = models.ForeignKey(faculty,on_delete=models.CASCADE)
     class Meta:
         db_table = 'salary'
 
 
 class facultyattedence(models.Model):
-    date = models.CharField(max_length=100)
+    date = models.DateField(max_length=100,default=datetime.datetime.now())
     FACULTY = models.ForeignKey(faculty, on_delete=models.CASCADE)
     class Meta:
         db_table = 'facultyattedence'
 
+
+
+class batchassign(models.Model):
+
+    FACULTY = models.ForeignKey(faculty, on_delete=models.CASCADE)
+    BATCH = models.ForeignKey(batch, on_delete=models.CASCADE)
+    date = models.CharField(max_length=100)
+    class Meta:
+        db_table = 'batchassign'
 
 

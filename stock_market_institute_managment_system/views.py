@@ -7,7 +7,7 @@ import random,datetime
 from  .models import faculty,student,salary,login,course,batch,enquiry,career,archiement,review,studymaterial,chat,attendence,exam,syllabus,work,application,facultyattedence,batchassign
 def logins(request):
     if request.method == 'POST':
-        username = request.POST['uname']
+        username = request.POST['unamee']
         password = request.POST['pwd']
         print("ppp")
 
@@ -50,7 +50,7 @@ def admin_home(request):
 
 def abc(request):
 
-    return render(request,"admin_index.html")
+    return render(request,"admin/admin_hom.html")
 
 
 
@@ -94,7 +94,7 @@ def admin_view_batch(request):
 
 def admin_view_batch_search(request):
     search=request.POST['textfield']
-    c=batch.objects.filter(batch_name__contains=search)
+    c=batch.objects.filter(batch_name__icontains=search)
     return render(request,"admin/view_batch.html",{'c' : c})
 
 
@@ -229,7 +229,7 @@ def admin_view_career_update(request):
 
 def admin_view_career_search(request):
     search=request.POST['textfield']
-    c = career.objects.filter(title__contains=search)
+    c = career.objects.filter(title__icontains=search)
     return render(request,"admin/view_carrier.html", {'c' : c})
 
 
@@ -249,29 +249,26 @@ def admin_add_course_post(request):
 
         coursename=request.POST['textfield']
         discription = request.POST['textarea']
+
+
+        file = request.FILES['file']
+        fs = FileSystemStorage()
+        sa = fs.save(file.name, file)
+        url = fs.url(sa)
+
         duration = request.POST['textfield2']
         amount=request.POST['textfield3']
 
         cs=course()
         cs.course_name=coursename
         cs.discription=discription
+        cs.file=url
         cs.duration=duration
         cs.amount=amount
         cs.save()
         return render(request,"admin/add_course.html")
     else:
         return render(request, "admin/add_course.html")
-
-
-
-# def admin_edit_course(request):
-#     return render(request,"admin/edit_course.html")
-#
-# def admin_edit_course_post(request):
-#     coursename = request.POST['textfield']
-#     discription = request.POST['textarea']
-#     duration = request.POST['textfield2']
-#     return render(request,"admin/edit_course.html")
 
 
 
@@ -428,16 +425,29 @@ def admin_add_salary(request,id):
 def admin_add_salary_post(request):
     if request.method=="POST":
         sal=request.POST['textfield3']
+
+        year=request.POST['select1']
+        month=request.POST['select2']
+
+        print(year,month)
+
+
         id=request.session['fac_id']
         res = faculty.objects.get(pk=id)
-        ss=salary.objects.filter(FACULTY=res)
+        ss=salary.objects.filter(FACULTY=res,year=year,month=month)
         if ss.exists():
             ss=ss[0]
             ss.salary=sal
+            ss.year=year
+            ss.month=month
             ss.save()
         else:
             s=salary()
             s.salary=sal
+            s.year = year
+            s.month = month
+
+
             s.FACULTY=res
             s.save()
         c = faculty.objects.all()
@@ -454,6 +464,25 @@ def admin_edit_salary_post(request):
 
     salary = request.POST['textfield3']
     return render(request,"admin/edit_salary.html")
+
+def admin_search_salary(request):
+
+    year=request.POST['select1']
+    month=request.POST['select2']
+    print(month)
+    print(year)
+
+    c = salary.objects.filter(year=year,month=month)
+
+    print(c)
+
+    return render(request, "admin/view_salary.html", {'c': c})
+
+
+
+
+
+
 
 
 
@@ -652,9 +681,22 @@ def admin_course_update(request):
     coursename=request.POST['textfield']
     discription=request.POST['textarea']
     duration=request.POST['textfield2']
+
     amount=request.POST['textfield3']
     idz=request.session['cupid']
-    qry=course.objects.filter(pk=idz).update(course_name=coursename,discription=discription,duration=duration,amount=amount)
+
+
+    if 'file' in request.FILES:
+        img=request.FILES['file']
+        fs=FileSystemStorage()
+        sa=fs.save(img.name, img)
+        url=fs.url(sa)
+
+        course.objects.filter(pk=idz).update(file=url)
+
+
+
+    course.objects.filter(pk=idz).update(course_name=coursename,discription=discription,duration=duration,amount=amount)
     return redirect("myapp:admin_view_course")
 
 
@@ -669,7 +711,7 @@ def admin_view_course(request):
 
 def admin_view_course_search(request):
     search=request.POST['textfield']
-    c = course.objects.filter(course_name__contains=search)
+    c = course.objects.filter(course_name__icontains=search)
     return render(request,"admin/view_course.html", {'c' : c})
 
 
@@ -694,7 +736,7 @@ def admin_view_faculty(request):
 
 def admin_view_faculty_search(request):
     search=request.POST['textfield']
-    c=faculty.objects.filter(facultyname__contains=search)
+    c=faculty.objects.filter(facultyname__icontains=search)
     return render(request,"admin/view_faculty.html",{'c' : c})
 
 
@@ -777,7 +819,7 @@ def admin_view_student_search(request):
     if btn=="Search":
         a = course.objects.all()
         search = request.POST['textfield']
-        c=student.objects.filter(student_name__contains=search)
+        c=student.objects.filter(student_name__icontains=search)
         return render(request,"admin/view_student.html",{'c' : c,'a':a})
     if btn=="Go":
         a = course.objects.all()
@@ -825,6 +867,8 @@ def admin_view_archievment(request):
 def admin_view_enquery(request):
     c=enquiry.objects.all()
     return render(request,"admin/view_enquery.html",{'c': c})
+
+
 
 
 
@@ -908,9 +952,24 @@ def admin_add_faculty_attendence_post(request):
 
 
 def admin_view_attendence_search(request):
-    search=request.POST['d']
-    c = facultyattedence.objects.filter(date__contains=search)
+    year=request.POST['select1']
+    month=request.POST['select2']
+
+
+    c = facultyattedence.objects.filter( date__year=year,date__month=month)
+    print(c)
+
     return render(request,"admin/view_attendence.html",{'c' : c})
+
+
+def admin_view_achievement_search(request):
+    search=request.POST['textfield']
+    c = archiement.objects.filter(STUDENT__student_name__icontains=search)
+
+    return render(request,"admin/view_archievment.html",{'c' : c})
+
+
+
 
 
 
@@ -939,13 +998,13 @@ def ad_faculty_login(request):
 
             login_obj = login.objects.get(username=username, password=password, user_type='student')
 
-            studentobj= student.objects.get(LOGIN=login_obj)
-
             lg = login_obj.pk
             typ = login_obj.user_type
+            studenobj= student.objects.get(LOGIN=login_obj)
+
 
             return JsonResponse(
-                {'status': 'ok', 'id': lg, 'usertype': typ, 'batch_id': studentobj.BATCH.pk})
+                {'status': 'ok', 'id': lg, 'usertype': typ,'batch_id': studenobj.BATCH.pk})
 
 
 
@@ -966,19 +1025,12 @@ def ad_faculty_login(request):
             bname=""
             cname=""
 
-
-
             for ii in fac_ass:
                 print(ii.BATCH.id)
 
                 bb=bb+str(ii.BATCH.id)+","
                 bname=bname+ii.BATCH.batch_name+","
                 cname=cname+ii.BATCH.COURSE.course_name+","
-
-
-
-
-
 
             print(bb)
             print(bname)
@@ -1018,7 +1070,7 @@ def ad_view_faculties(request):
     print(user_obj)
     res2 = []
     for ii in user_obj:
-        ss = {'faculty_name': ii.facultyname, 'Email': ii.email, 'Phone': ii.phone_no, 'Image': ii.image,'housename':ii.house_name,'place':ii.place,'post':ii.post,'pin':ii.pin,'qualification':ii.qualifiction,'experince':ii.experience}
+        ss = {'id':ii.pk, 'faculty_name': ii.facultyname, 'Email': ii.email, 'Phone': ii.phone_no, 'Image': ii.image,'housename':ii.house_name,'place':ii.place,'post':ii.post,'pin':ii.pin,'qualification':ii.qualifiction,'experince':ii.experience}
         res2.append(ss)
     print(res2)
     data = {"status": "ok", "users": res2}
@@ -1038,7 +1090,7 @@ def ad_view_assigned_batches(request):
 
     res2 = []
     for ii in  batchass:
-        ss = { 'Batch_name': ii.BATCH.batch_name, 'Batch_year': ii.BATCH.batch_year, 'batch_month':  ii.BATCH.batch_month, 'course_name':  ii.BATCH.COURSE.course_name}
+        ss = {'id': ii.BATCH.pk, 'Batch_name': ii.BATCH.batch_name, 'Batch_year': ii.BATCH.batch_year, 'batch_month':  ii.BATCH.batch_month, 'course_name':  ii.BATCH.COURSE.course_name}
         res2.append(ss)
     print(res2)
     data = {"status": "ok", "users": res2}
@@ -1064,28 +1116,17 @@ def ad_view_assigned_batches(request):
 def ad_view_students(request):
     print("ppp")
 
-    lid=request.POST['uid']
-    login_id=login.objects.get(id=lid)
-
-    fac_id=faculty.objects.get(LOGIN=login_id)
-
-    print(fac_id)
-
-    print("hi")
-
-    btass=batchassign.objects.filter(pk=fac_id.pk)
-    res2 = []
-    print(btass)
-    for k in btass:
-        batch_obj=batch.objects.get(pk=k.BATCH.pk)
-        print("vvvv")
-        user_obj = student.objects.filter(BATCH=batch_obj)
+    bid= request.POST['bid']
+    batch_obj=batch.objects.get(pk=bid)
 
 
-        for ii in user_obj:
-            ss = {'student_name': ii.student_name, 'email': ii.email, 'phone_no': ii.phone_no, 'course_name': ii.BATCH.COURSE.course_name}
-            res2.append(ss)
-        print(res2)
+    user_obj = student.objects.filter(BATCH=batch_obj)
+
+    res2=[]
+    for ii in user_obj:
+        ss = {'id': ii.pk,'student_name': ii.student_name, 'email': ii.email, 'phone_no': ii.phone_no, 'course_name': ii.BATCH.COURSE.course_name}
+        res2.append(ss)
+    print(res2)
     data = {"status": "ok", "users": res2}
     return JsonResponse(data)
 
@@ -1124,7 +1165,7 @@ def and_add_study_material(request):
 
     a = base64.b64decode(ff)
     # img
-    fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + title + ".pdf", "wb")
+    fh = open("G:\\Project\\myapp\\media\\" + title + ".pdf", "wb")
     fh.write(a)
     fh.close()
 
@@ -1223,7 +1264,7 @@ def and_add_syllbus(request):
     import base64
     a = base64.b64decode(ff)
     # img
-    fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + title + ".pdf", "wb")
+    fh = open("G:\\Project\\myapp\\media\\" + title + ".pdf", "wb")
     fh.write(a)
     fh.close()
     path="/media/"+title+".pdf"
@@ -1258,7 +1299,7 @@ def stud_add_achievements(request):
     import base64
     a = base64.b64decode(ff)
     # img
-    fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + name + ".pdf", "wb")
+    fh = open("G:\\Project\\myapp\\media\\" + name + ".pdf", "wb")
     fh.write(a)
     fh.close()
     path="/media/"+name+".pdf"
@@ -1293,7 +1334,7 @@ def faculty_update_sylabus(request):
         import base64
         a = base64.b64decode(ff)
         # img
-        fh = open("C:\\Users\\MAJID PC\\PycharmProjects\\myapp\\media\\" + title + ".pdf", "wb")
+        fh = open("G:\\Project\\myapp\\media\\" + title + ".pdf", "wb")
         fh.write(a)
         fh.close()
         path = "/media/" + title + ".pdf"
@@ -1321,14 +1362,67 @@ def faculty_view_sylabus(request):
     return JsonResponse(data)
 
 
+def and_edit_faculty_profile(request):
+
+    fid=request.POST['fid']
+
+    namee=request.POST['name']
+
+    phonn=request.POST['phonenumber']
+    housenamme=request.POST['housename']
+    place=request.POST['place']
+    post=request.POST['post']
+
+    proo=request.POST['prof']
+
+    obj = faculty.objects.get(LOGIN_id=fid)
+
+    obj.facultyname = namee
+    obj.phone_no = phonn
+    obj.house_name = housenamme
+    obj.place = place
+
+    obj.post = post
+    if proo != "":
+        import base64
+        # a = base64.b64decode(proo)
+
+        imgdata = base64.b64decode(proo)
+        import datetime
+
+        abc = "media/" + str(fid) + ".jpg"
+        print("jjjj22")
+
+        filename = "G:\\Project\\myapp\\media\\" + str(fid) + ".jpg"
+        fh = open(filename, "wb")
+
+        path = "/media/" + str(fid) + ".jpg"
+
+        fh.write(imgdata)
+        fh.close()
+        obj.image = path
+
+
+        # with open(filename, 'wb') as f:
+        # f.write(imgdata)
+
+
+        # ww.image=path
+
+    obj.save()
+    return JsonResponse({"status": "ok"})
+
+
 ##########################################################################
 def ad_student_view_profile(request):
 
     lid = request.POST['lid']
 
-    login_obj = login.objects.get(id=lid)
-
+    login_obj=login.objects.get(id=lid)
     user_obj=student.objects.get(LOGIN=login_obj)
+
+
+    # user_obj=student.objects.get(pk=lid)
 
     data = {"status": "ok", 'image':user_obj.image, 'name':user_obj.student_name, 'phonenumber':user_obj.phone_no,'email':user_obj.email,'house':user_obj.housename,'place':user_obj.place,'post':user_obj.post,'pin':user_obj.pin,'coursename':user_obj.BATCH.COURSE.course_name,'batchname':user_obj.BATCH.batch_name}
     return JsonResponse(data)
@@ -1337,14 +1431,14 @@ def ad_student_view_profile(request):
 
 def and_edit_student_profile(request):
 
-    wid=request.POST['wid']
+    sid=request.POST['sid']
     namee=request.POST['name']
     phonn=request.POST['phonenumber']
     housenamme=request.POST['housename']
     place=request.POST['place']
     proo=request.POST['prof']
 
-    obj = student.objects.get(LOGIN_id=wid)
+    obj = student.objects.get(LOGIN_id=sid)
 
     obj.student_name = namee
     obj.phone_no = phonn
@@ -1369,14 +1463,14 @@ def and_edit_student_profile(request):
 
 
 
-        abc = "media/" + str(wid) + ".jpg"
+        abc = "media/" + str(sid) + ".jpg"
         print("jjjj22")
 
-        filename = 'C:/Users/MAJID PC/PycharmProjects/myapp/media/' + str(wid) + ".jpg"
+        filename = "G:\\Project\\myapp\\media\\" + str(sid) + ".jpg"
         fh = open(filename, "wb")
 
 
-        path = "/media/" + str(wid) + ".jpg"
+        path = "/media/" + str(sid) + ".jpg"
 
         fh.write(imgdata)
         fh.close()
@@ -1415,8 +1509,6 @@ def and_student_view_stdy_materials(request):
 
 def student_view_sylabus(request):
     bid = str(request.POST['batchid']).replace(",", "")
-
-    print(bid,"ooooooooooooooooooooooooooooooooooooooooooooooo")
 
     btch= batch.objects.get(pk=bid)
     courseobj= btch.COURSE
@@ -1591,4 +1683,377 @@ def fac_viewassignedbatches(request):
 
 
 
-    alls=batchassign.objects.filter()
+
+def publicviewcourse(request):
+
+
+    batchass = course.objects.all()
+    res = []
+    if batchass.exists():
+        for i in batchass:
+            c = {'course_name':i.course_name, 'discription':i.discription, 'duration':i.duration, 'amount':i.amount,'content':i.file}
+            res.append(c)
+        return JsonResponse({'status': 'ok', 'users': res})
+    else:
+        return JsonResponse({'status': 'no'})
+
+
+
+def publicqnquiryadd(request):
+
+    name=request.POST["name"]
+    email=request.POST["email"]
+    phone=request.POST["phone"]
+    senquiry=request.POST["enquiry"]
+
+    enquiryobj=enquiry()
+    enquiryobj.name=name
+    enquiryobj.email=email
+    enquiryobj.phone_no=phone
+    enquiryobj.discrption=senquiry
+    enquiryobj.date=datetime.datetime.now()
+    enquiryobj.save()
+
+
+    return JsonResponse({'status': 'ok'})
+
+
+
+
+
+def student_view_faculties(request):
+    batch_id=request.POST["batch_id"]
+    batch_id=batch_id.replace(",","")
+
+    batchassignall= batchassign.objects.filter(BATCH=batch.objects.get(pk=batch_id))
+
+    res2 = []
+    for ii in batchassignall:
+        ss = {'id': ii.FACULTY.pk,'faculty_name': ii.FACULTY.facultyname, 'Email': ii.FACULTY.email, 'Phone': ii.FACULTY.phone_no, 'Image': ii.FACULTY.image,'housename':ii.FACULTY.house_name,'place':ii.FACULTY.place,'post':ii.FACULTY.post,'pin':ii.FACULTY.pin,'qualification':ii.FACULTY.qualifiction,'experince':ii.FACULTY.experience}
+        res2.append(ss)
+    print(res2)
+    data = {"status": "ok", "users": res2}
+    return JsonResponse(data)
+
+
+def studentviewcarriers(request):
+
+    allcarrier= career.objects.all()
+    res=[]
+
+    if allcarrier.exists():
+        for i in allcarrier:
+            c={'date':i.date,'title':i.title,'discription':i.discription,'file':i.file,'lastdate':i.lastdate,'id': i.pk }
+            res.append(c)
+
+        return JsonResponse({'status':'ok','data': res})
+    else:
+        return JsonResponse({'status':'ok'})
+
+
+def applyforvaccancy(request):
+    sid= request.POST["sid"]
+    cid= request.POST["cid"]
+
+
+    studentobj= student.objects.get(LOGIN=login.objects.get(pk=sid))
+    careerobj= career.objects.get(pk=cid)
+
+    applicationobj=application()
+    applicationobj.STUDENT=studentobj
+    applicationobj.CAREER=careerobj
+    applicationobj.date=datetime.datetime.now()
+    applicationobj.save()
+
+    return JsonResponse({'status': 'ok'})
+
+
+
+def studentviewappliedlist(request):
+
+    sid= request.POST["uid"]
+
+    studentobj= student.objects.get(LOGIN=login.objects.get(pk=sid))
+
+
+
+    allcarrier= application.objects.filter(STUDENT=studentobj)
+    res=[]
+
+    if allcarrier.exists():
+        for i in allcarrier:
+            c={'date':i.CAREER.date,'title':i.CAREER.title,'discription':i.CAREER.discription,'file':i.CAREER.file,'lastdate':i.CAREER.lastdate,'id': i.pk }
+            res.append(c)
+
+        return JsonResponse({'status':'ok','data': res})
+    else:
+        return JsonResponse({'status':'ok'})
+
+
+def and_studentchatinsert(request):
+    sid= request.POST["sid"]
+    fid= request.POST["fid"]
+
+
+    print("fid", fid)
+
+
+    studentobj= student.objects.get(LOGIN=login.objects.get(pk=sid))
+    facultyobj= faculty.objects.get(pk=fid)
+    msg= request.POST["message"]
+    chatobj= chat()
+    chatobj.STUDENT=studentobj
+    chatobj.FACULTY=facultyobj
+    chatobj.message=msg
+    chatobj.type="student"
+    chatobj.date=datetime.datetime.now()
+    chatobj.save()
+    return JsonResponse({'status': 'ok'})
+
+
+def and_facchatinsert(request):
+    sid= request.POST["sid"]
+    flogid= request.POST["flogid"]
+    studentobj= student.objects.get(pk=sid)
+    facultyobj= faculty.objects.get(LOGIN=login.objects.get(pk=flogid))
+    msg= request.POST["message"]
+    chatobj= chat()
+    chatobj.STUDENT=studentobj
+    chatobj.FACULTY=facultyobj
+    chatobj.message=msg
+    chatobj.type="faculty"
+    chatobj.date=datetime.datetime.now()
+    chatobj.save()
+    return JsonResponse({'status': 'ok'})
+
+def studentviewchat(request):
+    sid = request.POST["sid"]
+    fid = request.POST["facid"]
+    lid = request.POST["lid"]
+    studentobj = student.objects.get(LOGIN= login.objects.get(pk=sid))
+    facultyobj = faculty.objects.get(pk=fid)
+
+    chatall=chat.objects.filter(STUDENT=studentobj,FACULTY=facultyobj)
+    res=[]
+
+    if chatall.exists():
+        for i in chatall:
+            if i.pk > int(lid):
+                c={'message': i.message ,'date': i.date ,'type': i.type,'id':i.pk}
+                res.append(c)
+        return JsonResponse({'status':'ok','res2': res})
+    else:
+        return JsonResponse({'status':'no'})
+
+
+def facviewchat(request):
+    lid = request.POST["lid"]
+
+    sid = request.POST["sid"]
+    flogid = request.POST["flogid"]
+    studentobj = student.objects.get(pk=sid)
+    facultyobj = faculty.objects.get(LOGIN=login.objects.get(pk=flogid))
+
+    chatall=chat.objects.filter(STUDENT=studentobj,FACULTY=facultyobj)
+    res=[]
+
+    if chatall.exists():
+        for i in chatall:
+            if i.pk > int(lid):
+                c={'message': i.message ,'date': i.date ,'type': i.type,'id':i.pk}
+                res.append(c)
+        return JsonResponse({'status':'ok','res2': res})
+    else:
+        return JsonResponse({'status':'no'})
+
+
+
+
+
+def fac_attendanceadd(request):
+    ids= request.POST["studid"]
+    bid= request.POST["bid"]
+    idss= ids.split(',')
+
+
+
+    batchobj= batch.objects.get(pk=bid)
+
+    studentall= student.objects.filter(BATCH=batchobj)
+
+    absstudent=[]
+
+    for o in studentall:
+
+        if str(o.pk) not in idss:
+            absstudent.append(str(o.pk))
+
+
+
+
+
+    for i in idss:
+
+        if len(i)> 0:
+            dates= datetime.datetime.now()
+            sobj= student.objects.get(pk=i)
+
+            attadd= attendence()
+            attadd.STUDENT=sobj
+            attadd.date=dates
+            attadd.status="Present"
+
+
+            sa= attendence.objects.filter(STUDENT=sobj,date=dates)
+            if sa.exists():
+                pass
+            else:
+
+                attadd.save()
+
+    for i in absstudent:
+        dates = datetime.datetime.now()
+        sobj = student.objects.get(pk=i)
+        attadd = attendence()
+        attadd.STUDENT = sobj
+        attadd.date = dates
+        attadd.status = "Absent"
+
+        sa = attendence.objects.filter(STUDENT=sobj, date=dates)
+        if sa.exists():
+            pass
+        else:
+
+            attadd.save()
+
+        # attadd.save()
+
+    return JsonResponse({'status': 'ok'})
+
+
+
+
+def facviewstudentattendance(request):
+
+    sid= request.POST["sid"]
+
+    allattendance= attendence.objects.filter(STUDENT= student.objects.get(pk=sid))
+
+    res=[]
+    if allattendance.exists():
+
+        for i in allattendance:
+
+            c={'date': i.date ,'status': i.status}
+            res.append(c)
+        return JsonResponse({'status':'ok', 'users': res})
+    else:
+        return JsonResponse({'status':'no'})
+
+
+
+
+
+
+
+
+
+def studentattendance(request):
+
+    sid= request.POST["sid"]
+
+    allattendance= attendence.objects.filter(STUDENT= student.objects.get(LOGIN=login.objects.get(pk=sid)))
+
+    res=[]
+    if allattendance.exists():
+
+        for i in allattendance:
+
+            c={'date': i.date ,'status': i.status}
+            res.append(c)
+        return JsonResponse({'status':'ok', 'users': res})
+    else:
+        return JsonResponse({'status':'no'})
+
+
+
+
+def publicviewachievements(request):
+
+    alls= archiement.objects.all() #.filter(status="Approved")
+
+    res=[]
+    if alls.exists():
+        for i in alls:
+            c={'id': i.pk,'date':i.date,'file':i.file, 'description':i.discription,'name': i.STUDENT.student_name, 'image':i.STUDENT.image , 'email': i.STUDENT.email }
+            res.append(c)
+        return JsonResponse({'status': 'ok', 'data': res })
+    else:
+        return JsonResponse({'status':'no'})
+
+
+
+
+
+
+def senreviews(request):
+    sid= request.POST["sid"]
+    rev= request.POST["review"]
+    studentobj= student.objects.get(LOGIN=login.objects.get(pk=sid))
+
+    reviewobj= review()
+    reviewobj.STUDENT= studentobj
+    reviewobj.COURSE=studentobj.BATCH.COURSE
+    reviewobj.review=rev
+    reviewobj.date=datetime.datetime.now()
+    reviewobj.save()
+
+    return JsonResponse({'status':'ok'})
+
+
+
+
+
+def facviewsalary(request):
+
+    fid= request.POST["userid"]
+
+    print(fid,"aaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+    salrys= salary.objects.filter(FACULTY= faculty.objects.get(LOGIN= login.objects.get(pk=fid)))
+
+    res=[]
+
+    if salrys.exists():
+        k=[]
+
+        for i in salrys:
+            c={'year': i.year,'month':i.month, 'salary': i.salary }
+            res.append(c)
+
+
+        print(res)
+        return JsonResponse({'status':'ok', 'res': res})
+
+    else:
+
+        return JsonResponse({'status':'no'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
