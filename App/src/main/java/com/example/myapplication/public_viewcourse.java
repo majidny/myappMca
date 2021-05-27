@@ -28,7 +28,7 @@ import java.util.Map;
 public class public_viewcourse extends AppCompatActivity {
 
     ListView listwork;
-    String[] course_name,discription,duration,amount;
+    String[] course_name,discription,duration,amount,content;
     FloatingActionButton fab;
 
     ListView lvs;
@@ -68,7 +68,9 @@ public class public_viewcourse extends AppCompatActivity {
                                 course_name=new String[js.length()];
                                 discription=new String[js.length()];
                                 duration=new String[js.length()];
-                                amount=new String[js.length()];
+                                amountt=new String[js.length()];
+
+                                content=new String[js.length()];
 
 
 
@@ -78,10 +80,11 @@ public class public_viewcourse extends AppCompatActivity {
                                     discription[i] = u.getString("discription");
                                     duration[i] = u.getString("duration");
                                     amount[i] = u.getString("amount");
+                                    content[i] = u.getString("content");
 
                                 }
 
-                                lvs.setAdapter(new cust_pub_course(getApplicationContext(),course_name,discription,duration,amount ));
+                                lvs.setAdapter(new cust_pub_course(getApplicationContext(),course_name,discription,duration,amount,content ));
 
                             }
 

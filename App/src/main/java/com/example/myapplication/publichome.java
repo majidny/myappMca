@@ -29,7 +29,7 @@ public class publichome extends AppCompatActivity {
 
         imlogin=(ImageView) findViewById(R.id.imageView12);
         imenquiry=(ImageView) findViewById(R.id.imageView13);
-        imachievements=(ImageView) findViewById(R.id.imageView14);
+        imachievementss=(ImageView) findViewById(R.id.imageView14);
         imcourse=(ImageView) findViewById(R.id.imageView15);
 
 

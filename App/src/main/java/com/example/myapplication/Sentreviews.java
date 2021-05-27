@@ -114,7 +114,7 @@ public class Sentreviews extends AppCompatActivity implements View.OnClickListen
                     SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     Map<String, String> params = new HashMap<String, String>();
 
-//                String id=sh.getString("uid","");
+//                String idd=sh.getString("uid","");
                     params.put("review", enquiry);
                     params.put("sid", sh.getString("lid",""));
 

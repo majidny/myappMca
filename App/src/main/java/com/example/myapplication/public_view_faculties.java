@@ -60,7 +60,7 @@ public class public_view_faculties extends AppCompatActivity {
                                 housenme=new String[js.length()];
                                 place=new String[js.length()];
                                 quali=new String[js.length()];
-                                exp=new String[js.length()];
+                                expp=new String[js.length()];
 
 //                                type=new String[js.length()];
 //                                discription=new String[js.length()];

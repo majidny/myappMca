@@ -68,7 +68,7 @@ public class public_view_achievements extends AppCompatActivity {
                                     description[i]=u.getString("description");
                                     name[i]=u.getString("name");
                                     image[i]=u.getString("image");
-                                    email[i]=u.getString("email");
+                                    email[i]=u.getString("emaill");
 
 
                                 }

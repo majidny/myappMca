@@ -65,7 +65,7 @@ public class Publicaddenquiry extends AppCompatActivity implements View.OnClickL
         final String name=edname.getText().toString();
         final String phone=edphone.getText().toString();
         final String email=edemail.getText().toString();
-        final String enquiry=edenquiry.getText().toString();
+        final String enquiryy=edenquiry.getText().toString();
 
 
         if(name.length()==0){
